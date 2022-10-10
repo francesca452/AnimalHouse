@@ -44,6 +44,7 @@ router.post('/register', function(req, res){
                         return res.status(400).json({message: err.message})
                     }else{
                         req.flash('success', 'You are now registered')
+                        res.redirect('/users/login')
                         res.json(newUser)
                     }
                 })
