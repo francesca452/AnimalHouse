@@ -2,6 +2,7 @@ const express  = require('express')
 const app      = express()
 const mongoose = require('mongoose')
 const config   = require('./config/database')
+const Product  = require('./config/product')
 const cors     = require('cors')
 
 /*
@@ -14,7 +15,7 @@ require('./config/passport')(passport)
 
 global.rootDir = __dirname
 
-app.use(express.static(path.join(global.rootDir, 'public'))
+app.use(express.static(path.join(global.rootDir, 'public')))
 app.use(express.urlencoded({ extended: true}))
 app.use(cors())
 
@@ -40,8 +41,10 @@ app.use(passport.session())
 const productsRouter = require('./routes/products')
 app.use('/products', productsRouter)
 
+/*
 const userRouter = require('./routes/users')
 app.use('/users', userRouter)
+*/
 
 app.listen(8000, async () => {
 	console.log('Server Started\n')
