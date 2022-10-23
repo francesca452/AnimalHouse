@@ -1,7 +1,56 @@
 const express = require('express')
-const router = express.Router()
+const router  = express.Router()
 const Product = require('../models/product')
+const path    = require('path')
 
+/* GET /products?pet=${...}
+ * Ritorna tutti i prodotti divisi per sezione per l'animale indicato nel parametro di query
+ * output:
+
+ 	[
+		{
+			section: ...,
+			products: [ {...}, {...}, ... ]
+		}, 
+		
+		...
+		
+	]
+
+	Ogni prodotto è un json identico allo schema Product.
+*/
+router.get('/', async (req, res) => {
+
+    try {
+		if (!('pet' in req.query)) throw new Error('Missing pet query parameter');
+        const p = await Product.find({ 'pet': req.query.pet }).lean();
+
+		console.log('p\n', p);
+
+		let sections_dict = {};
+		let sections_list = [];
+		for (let i = 0; i < p.length; i++) {
+
+			let s = p[i].section; 
+			if (!(s in sections_dict)) {
+				sections_dict[s] = sections_list.length;
+				sections_list.push({'section': s, 'products': []});
+				console.log(sections_dict);
+			}
+
+			sections_list[sections_dict[s]].products.push(p[i]);
+
+		}
+
+
+		res.status(200).json(sections_list);
+    }
+	catch (err) {
+        res.status(500).json({message: err.message});
+    }    
+})
+
+/*
 //Get all
 router.get('/', async (req, res) => {
     try{
@@ -75,5 +124,6 @@ async function getProduct(req, res, next) {
     res.product = product
     next()
 }
+*/
 
 module.exports = router
