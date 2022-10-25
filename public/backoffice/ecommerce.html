@@ -12,6 +12,9 @@
 		<script src="jquery-3.6.0.js"></script>
 
 		<script>
+
+			let current_pet = 'dog';
+
 			function set_img_visibility(btn, vis)
 			{
 				btn.children[0].children[0].style.visibility = vis;
@@ -21,6 +24,41 @@
 			{
 				$('#pet-page-title').text(title);
 				$('#pet-image-title').html(`<img src="${petImageURL}" height="64" alt="">`);
+			}
+
+			function setFormAction(btn, formId)
+			{
+				$(formId).attr('action', `http://site212225.tw.cs.unibo.it/products/${btn.id}`);
+			}
+
+			function sendModifyForm()
+			{
+				const form = $('#modify-form');
+				const action = form.attr('action');
+
+				const mtitle = $('#modify-title');
+				const mprice = $('#modify-price');
+				const mpieces_left = $('#modify-pieces_left');
+				const mdescription = $('#modify-description');
+
+				const data = {
+					'title': mtitle.val(),
+					'price': mprice.val(),
+					'pieces_left': mpieces_left.val(),
+					'description': mdescription.val()
+				}
+
+				console.log(data);
+
+				mtitle.val('');
+				mprice.val('');
+				mpieces_left.val('');
+				mdescription.val('');
+
+				$.post(action, data)
+				.then(() => {
+					getSections(current_pet);
+				})
 			}
 
 			function getSections(petQuery)
@@ -51,16 +89,16 @@
 							<div class="col">
 								<div class="d-flex">
 									<h5 class="pe-3">${p[j].title}</h5>
-									<span class="pe-2">Prezzo: ${p[j].title}</span>
+									<span class="pe-2">Prezzo: ${p[j].price}</span>
 									<span class="ps-2">Pezzi rimanenti: ${p[j].pieces_left}</span>
 								</div>
 								<p>${p[j].description}</p>
-								<a role="button" href="/backoffice/ecommerce/modify_product?id=${p[j]._id}" 
-								   class="btn btn-outline-success" 
-								   onmouseover="set_img_visibility(this, 'hidden')" 
-								   onmouseleave="set_img_visibility(this, 'visible')">
+								<button type="button" id="${p[j]._id}" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#Modify-modal"
+								onmouseover="set_img_visibility(this, 'hidden')" 
+								onmouseleave="set_img_visibility(this, 'visible')"
+								onclick="setFormAction(this, '#modify-form')">
 									Modifica <span><img src="backoffice/img/arrow-2.jpeg" alt="" height="16"></span>
-								</a>
+								</button>
 							</div>
 						</article>`;
 					}
@@ -72,9 +110,25 @@
 
 
 			$(document).ready(() => {
+
+				/* setup submit button for form in the modal */
+				$('#modify-form-submit').click(() => {
+					$('#modify-form').submit();
+				})
+
+				$('#modify-form').submit(() => {
+					sendModifyForm();
+					return false; /* prevent change page after submit */
+				})
+				
+				/* dog is the default page */
+				setTitle('/backoffice/img/dog.png', 'Cani');
+				getSections('dog');
+
 				$('input[type=radio][name=pet]').change(() => {
 					const id = $('input[type=radio][name=pet]:checked').attr('id');
 					if (id == 'dog') {
+						current_pet = 'dog';
 						setTitle('/backoffice/img/dog.png', 'Cani');
 						getSections('dog');
 					}
@@ -177,6 +231,52 @@
 				</div>
 				<div id="sections">
 				</div>
+
+				<!-- Button trigger modal -->
+				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modify-modal">
+				  Launch demo modal
+				</button>
+
+				<!-- Modal -->
+				<div class="modal fade" id="Modify-modal" tabindex="-1" aria-labelledby="modal di modifica del prodotto" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+					  		<div class="modal-header">
+								<h1 class="modal-title fs-5" id="exampleModalLabel">
+									Modifica prodotto: <span id="modal-title-prodcut"></span>
+								</h1>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					  		</div>
+					  		<div class="modal-body">
+
+							<p>I campi lasciati bianchi non vengono modificati</p>
+
+							<!-- form modifica -->
+							<form id="modify-form" autocomplete="off" class="border-top"  method="POST" action="https://site212225.tw.cs.unibo.it/products/">
+								<label for="modify-title" class="col-form-label">Nome Prodotto:</label>
+								<input type="text" id="modify-title" name="title" class="form-control" aria-describedby="Nome prodotto">
+
+								<label for="modify-price" class="col-form-label">Prezzo:</label>
+								<input type="text" id="modify-price" name="price" class="form-control" aria-describedby="Prezzo">
+
+								<label for="modify-pieces_left" class="col-form-label">Pezzi rimanenti:</label>
+								<input type="text" id="modify-pieces_left" name="pieces_left" class="form-control" aria-describedby="Pezzi rimanenti">
+
+								<label for="modify-description" class="col-form-label">Descrizione:</label>
+								<textarea id="modify-description" name="description" class="form-control" aria-describedby="Descrizione"></textarea>
+							</form>
+
+							<!-- END form modifica -->
+					  	</div>
+					  	<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+							<button type="submit" id="modify-form-submit" data-bs-dismiss="modal" class="btn btn-success">Salva</button>
+					  	</div>
+					</div>
+				</div>
+			</div>
+				<!-- END modal -->
+
 			</div>
 		</main>
 		<footer class="border-top bg-secondary" style="--bs-bg-opacity: .1">
