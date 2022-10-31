@@ -26,9 +26,9 @@
 				$('#pet-image-title').html(`<img src="${petImageURL}" height="64" alt="">`);
 			}
 
-			function setFormAction(btn, formId)
+			function setFormAction(productId, formId)
 			{
-				$(formId).attr('action', `http://site212225.tw.cs.unibo.it/products/${btn.id}`);
+				$(formId).attr('action', `http://site212225.tw.cs.unibo.it/products/${productId}`);
 			}
 
 			function sendModifyForm()
@@ -48,8 +48,6 @@
 					'description': mdescription.val()
 				}
 
-				console.log(data);
-
 				mtitle.val('');
 				mprice.val('');
 				mpieces_left.val('');
@@ -61,6 +59,64 @@
 				})
 			}
 
+			function sendNewProductForm()
+			{
+				const form = $('#newProduct-form');
+
+				if (form.find('.required').filter((index, item) => { return item.value === ''}).length > 0) {
+					alert('Tutti i campi sono richiesti');
+					return;
+				}
+
+				const action = form.attr('action');
+
+				const npet = $('#new-pet');
+				const nsection= $('#new-section');
+				const ntitle = $('#new-title');
+				const nprice = $('#new-price');
+				const npieces_left = $('#new-pieces_left');
+				const ndescription = $('#new-description');
+				const nalt = $('#new-alt');
+
+				const newProduct = {
+					'pet': npet.val(),
+					'section': nsection.val(),
+					'title': ntitle.val(),
+					'price': nprice.val(),
+					'pieces_left': npieces_left.val(),
+					'description': ndescription.val(),
+					'alt': nalt.val(),
+					'image': 'http://www.site.it/'
+				}
+
+				npet.val('');
+				nsection.val('');
+				ntitle.val('');
+				nprice.val('');
+				npieces_left.val('');
+				ndescription.val('');
+				nalt.val('');
+
+				$.post(action, newProduct)
+				.then(() => {
+					getSections(current_pet);
+				})
+			}
+
+			function deleteProduct(productId)
+			{
+				$.ajax({
+					'url': `http://site212225.tw.cs.unibo.it/products/${productId}`,
+					'method': 'DELETE',
+				})
+				.then((res) => {
+					getSections(current_pet);
+				})
+				.catch((err) => {
+					console.error(err);
+				})
+			}
+
 			function getSections(petQuery)
 			{
 				$.get(`http://site212225.tw.cs.unibo.it/products?pet=${petQuery}`)
@@ -68,7 +124,7 @@
 					showSections(res);
 				})
 				.catch((err)=> {
-					console.log(err);
+					console.error(err);
 				})
 			}
 
@@ -93,12 +149,13 @@
 									<span class="ps-2">Pezzi rimanenti: ${p[j].pieces_left}</span>
 								</div>
 								<p>${p[j].description}</p>
-								<button type="button" id="${p[j]._id}" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#Modify-modal"
+								<button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#Modify-modal"
 								onmouseover="set_img_visibility(this, 'hidden')" 
 								onmouseleave="set_img_visibility(this, 'visible')"
-								onclick="setFormAction(this, '#modify-form')">
+								onclick="setFormAction('${p[j]._id}', '#modify-form')">
 									Modifica <span><img src="backoffice/img/arrow-2.jpeg" alt="" height="16"></span>
 								</button>
+								<button class="btn btn-outline-danger" onclick="deleteProduct('${p[j]._id}')">Elimina</button>
 							</div>
 						</article>`;
 					}
@@ -111,7 +168,7 @@
 
 			$(document).ready(() => {
 
-				/* setup submit button for form in the modal */
+				/* setup submit button for modify product form in the modal */
 				$('#modify-form-submit').click(() => {
 					$('#modify-form').submit();
 				})
@@ -119,6 +176,16 @@
 				$('#modify-form').submit(() => {
 					sendModifyForm();
 					return false; /* prevent change page after submit */
+				})
+
+				/* setup submit button for modify product form in the modal */
+				$('#newProduct-form-submit').click(() => {
+					$('#newProduct-form').submit();
+				})
+
+				$('#newProduct-form').submit(() => {
+					sendNewProductForm();
+					return false;
 				})
 				
 				/* dog is the default page */
@@ -223,21 +290,68 @@
 		</header>
 		<main class="my-5">
 			<div class="container">
-				<div class="row border-bottom">
-					<h3>
-						<span id="pet-image-title" class="px-3"></span>
-						<span id="pet-page-title" class="h1"></span> 
-					</h3>
+				<div class="row border-bottom justify-content-between">
+					<div class="col-auto">
+						<h3>
+							<span id="pet-image-title" class="px-3"></span>
+							<span id="pet-page-title" class="h1"></span> 
+						</h3>
+					</div>
+					<div class="col-auto">
+						<button type="button" data-bs-toggle="modal" data-bs-target="#newProduct-modal" class="btn btn-outline-dark">Aggiungi prodotto</button>
+					</div>
 				</div>
 				<div id="sections">
 				</div>
 
-				<!-- Button trigger modal -->
-				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modify-modal">
-				  Launch demo modal
-				</button>
+				<!-- modal NUOVO PRODOTTO -->
+				<div class="modal fade" id="newProduct-modal" tabindex="-1" aria-labelledby="modal per aggiungere un nuovo prodotto" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+					  		<div class="modal-header">
+								<h1 class="modal-title fs-5" id="exampleModalLabel">
+									Aggiungi un nuovo prodotto
+								</h1>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					  		</div>
+					  		<div class="modal-body">
 
-				<!-- Modal -->
+								<form id="newProduct-form" autocomplete="off" class="border-top"  method="POST" action="http://site212225.tw.cs.unibo.it/products/new">
+
+									<label for="new-pet" class="col-form-label">Animale:</label>
+									<input required type="text" id="new-pet" name="pet" class="form-control required" aria-describedby="Animale per cui è il prodotto">
+
+									<label for="new-section" class="col-form-label">Sezione:</label>
+									<input required type="text" id="new-section" name="title" class="form-control required" aria-describedby="Sezione del prodotto">
+
+									<label for="new-title" class="col-form-label">Nome Prodotto:</label>
+									<input required type="text" id="new-title" name="title" class="form-control required" aria-describedby="Nome prodotto">
+
+									<label for="new-price" class="col-form-label">Prezzo:</label>
+									<input required type="text" id="new-price" name="price" class="form-control required" aria-describedby="Prezzo">
+
+									<label for="new-pieces_left" class="col-form-label">Pezzi rimanenti:</label>
+									<input required type="text" id="new-pieces_left" name="pieces_left" class="form-control required" aria-describedby="Pezzi rimanenti">
+
+									<label for="new-alt" class="col-form-label">Testo alternativo all'immagine:</label>
+									<input required type="text" id="new-alt" name="alt" class="form-control required" aria-describedby="Alt immagine">
+
+									<label for="new-description" class="col-form-label">Descrizione:</label>
+									<textarea required id="new-description" name="description" class="form-control required" aria-describedby="Descrizione"></textarea>
+								</form>
+	
+					  		</div>
+					  		<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+								<button type="submit" id="newProduct-form-submit" data-bs-dismiss="modal" class="btn btn-success">Salva</button>
+					  		</div>
+						</div>
+					</div>
+				</div>
+
+			<!-- END modal nuovo prodotto -->
+
+				<!-- Modal FORM MODIFICA -->
 				<div class="modal fade" id="Modify-modal" tabindex="-1" aria-labelledby="modal di modifica del prodotto" aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content">
