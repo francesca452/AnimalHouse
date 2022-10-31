@@ -36,21 +36,30 @@
 				const form = $('#modify-form');
 				const action = form.attr('action');
 
+				const mpet = $('#modify-pet');
+				const msection = $('#modify-section');
 				const mtitle = $('#modify-title');
 				const mprice = $('#modify-price');
 				const mpieces_left = $('#modify-pieces_left');
+				const malt = $('#modify-alt');
 				const mdescription = $('#modify-description');
 
 				const data = {
+					'pet': mpet.val(),
+					'section': msection.val(),
 					'title': mtitle.val(),
 					'price': mprice.val(),
 					'pieces_left': mpieces_left.val(),
+					'alt': malt.val(),
 					'description': mdescription.val()
 				}
 
+				mpet.val('');
+				msection.val('');
 				mtitle.val('');
 				mprice.val('');
 				mpieces_left.val('');
+				malt.val('');
 				mdescription.val('');
 
 				$.post(action, data)
@@ -367,6 +376,13 @@
 
 							<!-- form modifica -->
 							<form id="modify-form" autocomplete="off" class="border-top"  method="POST" action="https://site212225.tw.cs.unibo.it/products/">
+
+								<label for="modify-pet" class="col-form-label">Animale:</label>
+								<input required type="text" id="modify-pet" name="pet" class="form-control" aria-describedby="Animale">
+
+								<label for="modify-section" class="col-form-label">Sezione:</label>
+								<input required type="text" id="modify-section" name="title" class="form-control" aria-describedby="Sezione">
+
 								<label for="modify-title" class="col-form-label">Nome Prodotto:</label>
 								<input type="text" id="modify-title" name="title" class="form-control" aria-describedby="Nome prodotto">
 
@@ -375,6 +391,9 @@
 
 								<label for="modify-pieces_left" class="col-form-label">Pezzi rimanenti:</label>
 								<input type="text" id="modify-pieces_left" name="pieces_left" class="form-control" aria-describedby="Pezzi rimanenti">
+
+								<label for="modify-alt" class="col-form-label">Testo alternativo all'immagine:</label>
+								<input required type="text" id="modify-alt" name="alt" class="form-control" aria-describedby="Alt immagine">
 
 								<label for="modify-description" class="col-form-label">Descrizione:</label>
 								<textarea id="modify-description" name="description" class="form-control" aria-describedby="Descrizione"></textarea>

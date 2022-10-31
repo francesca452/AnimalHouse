@@ -73,9 +73,12 @@ router.post('/:id', async (req, res) => {
 
 		let p = await Product.findById(req.params.id)
 
+		if (('pet' in req.body) && (req.body.pet !== '')) p.pet = req.body.pet
+		if (('section' in req.body) && (req.body.section !== '')) p.section = req.body.section
 		if (('title' in req.body) && (req.body.title !== '')) p.title = req.body.title
 		if (('price' in req.body) && (req.body.price !== '')) p.price = req.body.price
 		if (('pieces_left' in req.body) && (req.body.pieces_left !== '')) p.pieces_left = req.body.pieces_left
+		if (('alt' in req.body) && (req.body.alt !== '')) p.alt = req.body.alt
 		if (('description' in req.body) && (req.body.description !== '')) p.description = req.body.description
 
 		await p.save()
