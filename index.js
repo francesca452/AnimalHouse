@@ -2,8 +2,12 @@ const express  = require('express')
 const app      = express()
 const mongoose = require('mongoose')
 const config   = require('./config/database')
-const Product  = require('./config/product')
+const Product  = require('./models/product')
+const Pet      = require('./models/pet')
+const Location = require('./models/location')
+const Service  = require('./models/service')
 const cors     = require('cors')
+const path     = require('path')
 
 /*
 const passport = require('passport')
@@ -38,8 +42,11 @@ app.use(passport.initialize())
 app.use(passport.session())
 */
 
-const productsRouter = require('./routes/products')
-app.use('/products', productsRouter)
+
+app.use('/products', require('./routes/products'))
+app.use('/pets', require('./routes/pets'))
+app.use('/locations', require('./routes/locations'))
+app.use('/services', require('./routes/services'))
 
 /*
 const userRouter = require('./routes/users')
@@ -51,13 +58,10 @@ app.listen(8000, async () => {
 
 	await mongoose.connect(config.database)
 
-	console.log('Recreating default Product collection...\n')
 
-	const del = await Product.deleteMany()
-	console.log('Delete result: ', del.acknowledged);
-	console.log('Number of products deleted: ', del.deletedCount);
+	const pdel = await Product.deleteMany()
 
-	const data = [
+	let data = [
 		{
 			pet: 'dog',
 			section: 'Prodotti alimentari',
@@ -112,4 +116,126 @@ app.listen(8000, async () => {
 		}
 	}
 
+
+	await Pet.deleteMany()
+	const pets = [
+		{ name: 'Cani'       }, 
+		{ name: 'Gatti'      }, 
+		{ name: 'Volatili'   }, 
+		{ name: 'Pesci'      }, 
+		{ name: 'Tartarughe' }, 
+		{ name: 'Roditori'   }
+	];
+	for (let i = 0; i < pets.length; i++) {
+		const p = new Pet(pets[i]);
+		await p.save();
+	}
+
+	await Location.deleteMany()
+	const locations = [
+		{ 
+			city: 'Bologna',
+			address: 'via indipendenza 5'
+		},
+		{
+			city: 'Bologna',
+			address: 'via Marconi 7'
+		},
+		{
+			city: 'Ancona',
+			address: 'via del corso 1'
+		},
+		{
+			city: 'Cagliari',
+			address: 'viale Italia 10'
+		}
+	];
+	for (let i = 0; i < locations.length; i++) {
+		const l = new Location(locations[i]);
+		await l.save();
+	}
+
+	await Service.deleteMany()
+
+	let dogId = await Pet.find({ name: 'Cani' }).lean();
+	dogId = dogId[0]._id;
+	console.log('dogId: ', dogId);
+
+	let catId = await Pet.find({ name: 'Gatti' }).lean();
+	catId = catId[0]._id;
+	console.log('catId: ', catId);
+
+	const services = [
+		{
+			name: 'toilettara',
+			pet: dogId,
+			description: 'Rimozione del pelo in eccesso'
+		},
+		{
+			name: 'Dog sitter',
+			pet: dogId,
+			description: 'Ci prendiamo cura del tuo cane'
+		},
+		{
+			name: 'Verinario',
+			pet: dogId,
+			description: 'Veterinario specializzato in cani'
+		},
+		{
+			name: 'Verinario',
+			pet: catId,
+			description: 'Veterinario specializzato in gatti'
+		}
+
+	];
+	for (let i = 0; i < services.length; i++) {
+		const s = new Service(services[i]);
+		await s.save();
+	}
+
+	/*
+	data = [
+		{
+			pet: 'dog',
+			location: 'Bologna',
+			service: 'toilettatura',
+			day: '2022-11-01',
+			time_start: 600,
+			time_end: 660,
+			reservation_left: 1,
+			pet_size: 'big'
+		},
+		{
+			pet: 'dog',
+			location: 'Bologna',
+			service: 'Dog sitter',
+			day: '2022-11-02',
+			time_start: 660,
+			time_end: 720,
+			reservation_left: 1,
+			pet_size: 'big'
+		},
+		{
+			pet: 'cat',
+			location: 'Ancona',
+			service: 'Veterinario',
+			day: '2022-11-02',
+			time_start: 660,
+			time_end: 720,
+			reservation_left: 1,
+			pet_size: 'big'
+		}
+	];
+
+	for (let i = 0; i < data.length; i++) {
+		try {
+			const s = new Service(data[i])
+			const snew = await s.save()
+			console.log('product saved: ', snew)
+		}
+		catch (err) {
+			console.error('Error: ', err)
+		}
+	}
+	*/
 })
