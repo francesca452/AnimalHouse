@@ -9,13 +9,8 @@ const Service  = require('./models/service')
 const cors     = require('cors')
 const path     = require('path')
 
-/*
-const passport = require('passport')
-const flash    = require('connect-flash')
-const session = require('express-session')
-//passport config
-require('./config/passport')(passport)
-*/
+const errorHandler = require('./middleware/error')
+
 
 global.rootDir = __dirname
 
@@ -23,24 +18,6 @@ app.use(express.static(path.join(global.rootDir, 'public')))
 app.use(express.urlencoded({ extended: true}))
 app.use(cors())
 
-/*
-//express-session e connect flash
-app.use(session({
-    secret: 'secret',
-    resave: false,
-    saveUninitialized: true
-}));
-app.use(flash())
-app.use((req, res, next) => {
-    res.locals.success_msg = req.flash('success_msg')
-    res.locals.success_msg = req.flash('error_msg')    
-    next()
-})
-
-//passport middleware
-app.use(passport.initialize())
-app.use(passport.session())
-*/
 
 
 app.use('/products', require('./routes/products'))
@@ -48,10 +25,11 @@ app.use('/pets', require('./routes/pets'))
 app.use('/locations', require('./routes/locations'))
 app.use('/services', require('./routes/services'))
 
-/*
-const userRouter = require('./routes/users')
-app.use('/users', userRouter)
-*/
+app.use('/auth', require('./routes/auth'))
+app.use('/private', require('./routes/private'))
+
+app.use(errorHandler)
+
 
 app.listen(8000, async () => {
 	console.log('Server Started\n')
@@ -193,49 +171,5 @@ app.listen(8000, async () => {
 		await s.save();
 	}
 
-	/*
-	data = [
-		{
-			pet: 'dog',
-			location: 'Bologna',
-			service: 'toilettatura',
-			day: '2022-11-01',
-			time_start: 600,
-			time_end: 660,
-			reservation_left: 1,
-			pet_size: 'big'
-		},
-		{
-			pet: 'dog',
-			location: 'Bologna',
-			service: 'Dog sitter',
-			day: '2022-11-02',
-			time_start: 660,
-			time_end: 720,
-			reservation_left: 1,
-			pet_size: 'big'
-		},
-		{
-			pet: 'cat',
-			location: 'Ancona',
-			service: 'Veterinario',
-			day: '2022-11-02',
-			time_start: 660,
-			time_end: 720,
-			reservation_left: 1,
-			pet_size: 'big'
-		}
-	];
-
-	for (let i = 0; i < data.length; i++) {
-		try {
-			const s = new Service(data[i])
-			const snew = await s.save()
-			console.log('product saved: ', snew)
-		}
-		catch (err) {
-			console.error('Error: ', err)
-		}
-	}
-	*/
+	
 })
