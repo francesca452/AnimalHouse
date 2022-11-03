@@ -6,6 +6,7 @@ const Product  = require('./models/product')
 const Pet      = require('./models/pet')
 const Location = require('./models/location')
 const Service  = require('./models/service')
+const Bookable = require('./models/bookable_service')
 const cors     = require('cors')
 const path     = require('path')
 
@@ -47,6 +48,7 @@ app.use('/products', require('./routes/products'))
 app.use('/pets', require('./routes/pets'))
 app.use('/locations', require('./routes/locations'))
 app.use('/services', require('./routes/services'))
+app.use('/bookable_services', require('./routes/bookable_services'))
 
 /*
 const userRouter = require('./routes/users')
@@ -167,7 +169,7 @@ app.listen(8000, async () => {
 
 	const services = [
 		{
-			name: 'toilettara',
+			name: 'Toilettatura',
 			pet: dogId,
 			description: 'Rimozione del pelo in eccesso'
 		},
@@ -177,12 +179,12 @@ app.listen(8000, async () => {
 			description: 'Ci prendiamo cura del tuo cane'
 		},
 		{
-			name: 'Verinario',
+			name: 'Veterinario',
 			pet: dogId,
 			description: 'Veterinario specializzato in cani'
 		},
 		{
-			name: 'Verinario',
+			name: 'Veterinario',
 			pet: catId,
 			description: 'Veterinario specializzato in gatti'
 		}
@@ -193,12 +195,28 @@ app.listen(8000, async () => {
 		await s.save();
 	}
 
-	/*
-	data = [
+
+	await Bookable.deleteMany();
+
+	let BolognaId = await Location.find({ city: 'Bologna' }).lean();
+	BolognaId = BolognaId[0]._id;
+	let AnconaId = await Location.find({ city: 'Ancona' }).lean();
+	AnconaId = AnconaId[0]._id;
+
+	let toilettatura_cani_Id = await Service.find({ name: 'Toilettatura', pet: dogId }).lean();
+	toilettatura_cani_Id = toilettatura_cani_Id[0]._id;
+
+	let dog_sitter_Id = await Service.find({ name: 'Dog sitter', pet: dogId }).lean();
+	dog_sitter_Id  = dog_sitter_Id[0]._id;
+
+	let veterinario_gatti_Id = await Service.find({ name: 'Veterinario', pet: catId }).lean();
+	veterinario_gatti_Id = veterinario_gatti_Id[0]._id;
+
+	bookable_service = [
 		{
-			pet: 'dog',
-			location: 'Bologna',
-			service: 'toilettatura',
+			pet: dogId,
+			location: BolognaId,
+			service: toilettatura_cani_Id,
 			day: '2022-11-01',
 			time_start: 600,
 			time_end: 660,
@@ -206,9 +224,9 @@ app.listen(8000, async () => {
 			pet_size: 'big'
 		},
 		{
-			pet: 'dog',
-			location: 'Bologna',
-			service: 'Dog sitter',
+			pet: dogId,
+			location: BolognaId,
+			service: dog_sitter_Id,
 			day: '2022-11-02',
 			time_start: 660,
 			time_end: 720,
@@ -216,9 +234,9 @@ app.listen(8000, async () => {
 			pet_size: 'big'
 		},
 		{
-			pet: 'cat',
-			location: 'Ancona',
-			service: 'Veterinario',
+			pet: catId,
+			location: AnconaId,
+			service: veterinario_gatti_Id,
 			day: '2022-11-02',
 			time_start: 660,
 			time_end: 720,
@@ -227,15 +245,13 @@ app.listen(8000, async () => {
 		}
 	];
 
-	for (let i = 0; i < data.length; i++) {
+	for (let i = 0; i < bookable_service.length; i++) {
 		try {
-			const s = new Service(data[i])
-			const snew = await s.save()
-			console.log('product saved: ', snew)
+			const b = new Bookable(bookable_service[i]);
+			const bnew = await b.save();
 		}
 		catch (err) {
 			console.error('Error: ', err)
 		}
 	}
-	*/
 })

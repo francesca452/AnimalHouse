@@ -1,19 +1,14 @@
 const express  = require('express')
 const router   = express.Router()
-const Services = require('../models/service')
+const Service  = require('../models/service')
 const Pets     = require('../models/pet')
 
 router.get('/', async (req, res) => {
 
 	try {
-		q = {};
-		if ('pet' in req.query) {
-			const p = await Pets.find({ name: req.query.pet }).lean();
-			if (p.length == 0) throw new Error('Wrong query value for pet');
-			q['pet'] = p[0]._id;
-		}
-
-		const s  = await Services.find(q).lean();
+		if (!('pet' in req.query)) throw new Error('Missing pet query parameter');
+		
+		const s  = await Service.find({ 'pet': req.query.pet }).lean();
 		res.status(200).json(s);
     }
 	catch (err) {

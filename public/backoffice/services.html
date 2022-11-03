@@ -31,7 +31,7 @@
 				innerHTML += `
 				<div class="form-check form-check-inline">
 					<input type="radio" class="form-check-input" name="pet" 
-					id="${pets[i].name}" value="${pets[i].name}" autocomplete="off">
+					id="${pets[i].name}" value="${pets[i]._id}" autocomplete="off" required>
 					<label class="form-check-label" for="${pets[i].name}">${pets[i].name}</label>
 				</div>`;
 			}
@@ -83,6 +83,36 @@
 			});
 		}
 
+		function getBookable_service()
+		{
+			const form = $('#serch-form');
+			const action = form.attr('action');
+
+			const p = $('input[type="radio"][name="pet"]:checked').attr('value');
+			const l = $('#location-select option:selected').attr('value');
+			const s = $('#service-select option:selected').attr('value');
+
+			let uri = `http://site212225.tw.cs.unibo.it/bookable_services?pet=${p}`;
+			if (l !== 'All') uri += `&location=${l}`;
+			if (s !== 'All') uri += `&service=${s}`;
+			console.log(uri);
+			$.get(uri)
+			.then((res) => {
+				showSearchResult(res);
+			})
+			.catch((err) => {
+				console.error(err);
+			});
+
+		}
+
+		function showSearchResult(results)
+		{
+			for (let i = 0; i < results.length; i++) {
+				console.log(results[i]);
+			}
+		}
+
 		function showLocationsSelect(locations)
 		{
 			const sel = $('#location-select');
@@ -97,6 +127,11 @@
 		$(document).ready(() => {
 			getPets();
 			getLocations();
+
+			$('#search-form').submit((event) => {
+				getBookable_service();
+				return false;
+			});
 		});
 
 		</script>
@@ -148,7 +183,9 @@
 
 		<main class="my-5">
 			<div class="container">
-				<form class="border border-success p-3" style="border-radius: 25px;">
+
+				<!-- SEARCH form -->
+				<form id="search-form" class="border border-success p-3" style="border-radius: 25px;">
 					<div class="mb-3">
 						<fieldset>
 							<legend class="form-label">Seleziona per quale animale è il servizio: </legend>
@@ -163,14 +200,19 @@
 						</select>	
 					</div>
 					<div class="mb-3">
-						<label for="location-select" class="form-label">Seleziona il servizio</label>
+						<label for="service-select" class="form-label">Seleziona il servizio</label>
 						<select class="form-select" id="service-select" aria-label="Seleziona il singolo servizio per il tuo animale">
 							<option value="All">Tutti i servizi </option>
 						</select>
 					</div>
+					<button type="submit" class="btn btn-success">Cerca</button>
 				</form>
-			</div>
+				<!-- END search form -->
 
+				<div id="search-result">
+				</div>
+				
+			</div>
 		</main>
 		<footer class="border-top bg-secondary" style="--bs-bg-opacity: .1">
 			<div class="container-fluid py-5">

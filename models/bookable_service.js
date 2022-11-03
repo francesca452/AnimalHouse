@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const serviceSchema = new mongoose.Schema({
+const bookable_serviceSchema = new mongoose.Schema({
     'pet': {
         type: mongoose.Schema.Types.ObjectId,
 		ref: 'pet',
@@ -37,4 +37,4 @@ const serviceSchema = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('Service', serviceSchema)
+module.exports = mongoose.model('Bookable_service', bookable_serviceSchema)
