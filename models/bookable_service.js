@@ -16,16 +16,12 @@ const bookable_serviceSchema = new mongoose.Schema({
 		ref: 'service',
 		required: true
 	},
+	'price': {
+		type: Number,
+		required: true
+	},
 	'day': {
         type: Date,
-        required: true
-    },
-    'time_start': {
-        type: Number,
-        required: true
-    },
-	'time_end': {
-        type: Number,
         required: true
     },
 	'reservation_left': {

@@ -11,16 +11,18 @@
 		<script src="jquery-3.6.0.js"></script>
 		<script>
 
-		function getPets()
+		function invertArrow(btn)
 		{
-			$.get('http://site212225.tw.cs.unibo.it/pets')
-			.then((res) => {
-				showPetsRadio(res);
-			})
-			.catch((err) => {
-				console.error(err);
-			});
+			const text = btn.innerText;
+			console.log(btn);
+			console.log(text);
+
+			/*
+			if (text === '▼') btn.inenrText = ▲;
+			else if (text === '▲') btn.inenrText = ▼;
+			*/
 		}
+
 
 		function showPetsRadio(pets)
 		{
@@ -37,51 +39,39 @@
 			}
 			r.html(innerHTML);
 
-			setPetsRadioListener()
+			$('input[type="radio"][name="pet"]').click(() => { show_pet_services_select(); });
 		}
 
-		function setPetsRadioListener()
-		{
-			$('input[type="radio"][name="pet"]').click(() => {
-				const pet = $('input[type="radio"][name="pet"]:checked').attr('value');
-				getServices(pet);
-			});
 
+		function show_pet_services_select()
+		{
+			const pet = $('input[type="radio"][name="pet"]:checked').attr('value');
+			$.getJSON(`http://site212225.tw.cs.unibo.it/services?pet=${pet}`, 
+				function (services)
+				{
+					const sel = $('#service-select');
+					let innerHTML = '<option value="All">Tutti i servizi </option>';
+
+					for (let i = 0; i < services.length; i++) {
+						innerHTML += `<option value="${services[i]._id}">${services[i].name}</option>`;
+					}
+
+					sel.html(innerHTML);
+				});
 		}
 
-		function getServices(pet)
-		{
-			$.get(`http://site212225.tw.cs.unibo.it/services?pet=${pet}`)
-			.then((res) => {
-				showServicesSelect(res);
-			})
-			.catch((err) => {
-				console.error(err);
-			})
-		}
 
-		function showServicesSelect(services)
+		function showLocationsSelect(locations)
 		{
-			const sel = $('#service-select');
-			let innerHTML = '<option value="All">Tutti i servizi </option>';
+			const sel = $('#location-select');
+			let innerHTML = '<option value="All">Tutte le sedi</option>';
 
-			for (let i = 0; i < services.length; i++) {
-				innerHTML += `<option value="${services[i]._id}">${services[i].name}</option>`;
+			for (let i = 0; i < locations.length; i++) {
+				innerHTML += `<option value="${locations[i]._id}">${locations[i].city} - ${locations[i].address}</option>`;
 			}
-
 			sel.html(innerHTML);
 		}
 
-		function getLocations()
-		{
-			$.get('http://site212225.tw.cs.unibo.it/locations')
-			.then((res) => {
-				showLocationsSelect(res);
-			})
-			.catch((err) => {
-				console.error(err);
-			});
-		}
 
 		function getBookable_service()
 		{
@@ -95,38 +85,95 @@
 			let uri = `http://site212225.tw.cs.unibo.it/bookable_services?pet=${p}`;
 			if (l !== 'All') uri += `&location=${l}`;
 			if (s !== 'All') uri += `&service=${s}`;
-			console.log(uri);
-			$.get(uri)
-			.then((res) => {
-				showSearchResult(res);
-			})
-			.catch((err) => {
-				console.error(err);
-			});
-
+			$.getJSON(uri, (services) => { showSearchResult(services);});
 		}
 
 		function showSearchResult(results)
 		{
+			const r = $('#search-result');
+			let innerHTML = '<hr class="my-5">';
+
+			if (results.length == 0) {
+				innerHTML += `
+					<h3 class="fw-bold text-secondary text-center">Nessun risultato...</h3>
+					<p class="text-secondary text-center">
+						Non ci sono servizi disponibili per questa ricerca.
+					</p>`;
+			}
+			else {
+				innerHTML += `
+					<h3 class="text-secondary">
+						<span class="fw-bold">Servizi disponibili:</span>
+					</h3>
+				`;
+			}
+
 			for (let i = 0; i < results.length; i++) {
-				console.log(results[i]);
+				const split = results[i].day.split('T');
+				const day = split[0];
+				const time = split[1].substring(0,5);
+
+				const options = {'weekday': 'short', 'year': 'numeric', 'month': '2-digit', 'day': '2-digit'};
+				let strDate = new Date(day).toLocaleString('it-IT', options);
+				strDate = strDate.charAt(0).toUpperCase() + strDate.slice(1);
+
+				innerHTML += `
+					<article class="border m-3">
+						<div class="p-3">
+							<div class="d-flex flex-column flex-lg-row gap-lg-3">
+								<h4 class="fs-4 mb-0">${results[i].service.name}</h4> 
+								<div>sede: <span class="fs-5">${results[i].location.city}</span></div>
+							</div>
+							<div class="d-flex justify-content-between">
+								<div class="d-flex flex-column">
+									<span class="fs-4 text-success fw-bold" style="margin-bottom: -10px;">${time}</span>
+									<span>${strDate}</span> 
+								</div>
+								<div>
+									<span class="fs-4 text-danger fw-bold">${results[i].price} €</span>
+									<span>
+										<button class="btn btn-sm" type="button" onclick="invertArrow(this)"
+											data-bs-toggle="collapse" data-bs-target="#collapseMoreInfo-${i}" 
+											aria-expanded="false" aria-controls="collapseMoreInfo-${i}">
+												&#9660
+										</button>
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="collapse" id="collapseMoreInfo-${i}">
+							<div class="border-top bg-secondary p-3" style="--bs-bg-opacity: .10;">
+								<h4 class="fs-4">Ulteriori informazioni</h4>
+								<p>
+									<span class="text-danger fw-bold">Attenzione:</span> Il servizio è disponibile soltanto per <span class="text-black fw-bold">${results[i].pet.name}</span> 
+									di dimensione <span class="text-black fw-bold">${results[i].pet_size}</span> o minore. <br>
+									Indirizzo della sede: <span class="text-black fw-bold">${results[i].location.address} - ${results[i].location.city}</span>
+								</p>
+								<p>
+									<span class="text-success fw-bold">Descrizione del servizio:</span> <br> 
+									${results[i].service.description}
+								</p>
+								<p>Posti disponibili: <span class="text-black fw-bold">${results[i].reservation_left}</span></p>
+								<div class="d-flex justify-content-end">
+									<a role="button" class="btn btn-outline-success" href="#"><span class="fw-bold">Modifica</span></a>
+								</div>
+							</div>
+						</div>
+					</article>`;
 			}
+
+			
+
+			r.html(innerHTML);
 		}
 
-		function showLocationsSelect(locations)
-		{
-			const sel = $('#location-select');
-			let innerHTML = '<option value="All">Tutte le sedi</option>';
 
-			for (let i = 0; i < locations.length; i++) {
-				innerHTML += `<option value="${locations[i]._id}">${locations[i].city} - ${locations[i].address}</option>`;
-			}
-			sel.html(innerHTML);
-		}
+		
 			
 		$(document).ready(() => {
-			getPets();
-			getLocations();
+			$.getJSON('http://site212225.tw.cs.unibo.it/pets', (pets) => { showPetsRadio(pets); });
+		 	$.getJSON('http://site212225.tw.cs.unibo.it/locations', (locations) => { showLocationsSelect(locations); });
+			
 
 			$('#search-form').submit((event) => {
 				getBookable_service();

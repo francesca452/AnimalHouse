@@ -26,29 +26,30 @@ router.get('/', async (req, res) => {
 			.populate('service')
 			.lean();
 
-		/*
+		
 		s.sort((x, y) => {
 
 			let cmp;
 
-			cmp = x.pet.toString().localeCompare(y.pet);
+			cmp = x.pet.name.localeCompare(y.pet.name);
 			if (cmp !== 0)  return cmp;
 
-			cmp = x.location.toString().localeCompare(y.location);
+			cmp = `${x.location.city} - ${x.location.address}`
+				.localeCompare(`${y.location.city} - ${y.location.address}`);
 			if (cmp !== 0)  return cmp; 
 
-			cmp = x.service.toString().localeCompare(y.service);
+			cmp = x.service.name.localeCompare(y.service.name);
 			if (cmp !== 0)  return cmp;
   
 			cmp = x.day.toString().localeCompare(y.day);
 			if (cmp !== 0)  return cmp;
 
-			if (x.time_start > y.time_start) return -1;
-			else if (x.time_start < y.time_start) return 1;
+			if (x.price > y.price) return 1;
+
 			else return 0;
 
 		});
-		*/
+
 
 		res.status(200).json(s);
     }

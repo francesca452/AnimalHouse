@@ -217,9 +217,8 @@ app.listen(8000, async () => {
 			pet: dogId,
 			location: BolognaId,
 			service: toilettatura_cani_Id,
-			day: '2022-11-01',
-			time_start: 600,
-			time_end: 660,
+			day: new Date('2022-11-20T10:30:00Z'),
+			price: 13.20,
 			reservation_left: 1,
 			pet_size: 'big'
 		},
@@ -227,9 +226,8 @@ app.listen(8000, async () => {
 			pet: dogId,
 			location: BolognaId,
 			service: dog_sitter_Id,
-			day: '2022-11-02',
-			time_start: 660,
-			time_end: 720,
+			day: new Date('2022-11-02T08:30:00Z'),
+			price: 20.22,
 			reservation_left: 1,
 			pet_size: 'big'
 		},
@@ -237,9 +235,8 @@ app.listen(8000, async () => {
 			pet: catId,
 			location: AnconaId,
 			service: veterinario_gatti_Id,
-			day: '2022-11-02',
-			time_start: 660,
-			time_end: 720,
+			day: new Date('2022-11-10T14:30:00Z'),
+			price: 10.50,
 			reservation_left: 1,
 			pet_size: 'big'
 		}
