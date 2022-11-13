@@ -49,6 +49,8 @@ app.use('/pets', require('./routes/pets'))
 app.use('/locations', require('./routes/locations'))
 app.use('/services', require('./routes/services'))
 app.use('/bookable_services', require('./routes/bookable_services'))
+app.use('/backoffice', require('./routes/backoffice-tpl'))
+
 
 /*
 const userRouter = require('./routes/users')
@@ -220,7 +222,7 @@ app.listen(8000, async () => {
 			day: new Date('2022-11-20T10:30:00Z'),
 			price: 13.20,
 			reservation_left: 1,
-			pet_size: 'big'
+			pet_size: 'grande'
 		},
 		{
 			pet: dogId,
@@ -229,7 +231,7 @@ app.listen(8000, async () => {
 			day: new Date('2022-11-02T08:30:00Z'),
 			price: 20.22,
 			reservation_left: 1,
-			pet_size: 'big'
+			pet_size: 'grande'
 		},
 		{
 			pet: catId,
@@ -238,7 +240,7 @@ app.listen(8000, async () => {
 			day: new Date('2022-11-10T14:30:00Z'),
 			price: 10.50,
 			reservation_left: 1,
-			pet_size: 'big'
+			pet_size: 'grande'
 		}
 	];
 

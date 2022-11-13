@@ -2,6 +2,7 @@ const express  = require('express')
 const router   = express.Router()
 const Pet      = require('../models/pet')
 const Location = require('../models/location')
+const Service  = require('../models/service')
 const Bookable_service = require('../models/bookable_service')
 
 
@@ -57,5 +58,33 @@ router.get('/', async (req, res) => {
         res.status(400).json({message: err.message});
     }    
 })
+
+router.post('/:id/modify', async (req, res) => {
+	try {
+		if ('pet' in req.body) {
+			const p = await Pet.findById(req.body.pet);
+			if (p.length === 0) 
+				throw new Error('"pet" is not a valid id for a pet');
+		}
+		if ('location' in req.body) {
+			const l = await Location.findById(req.body.location);
+			if (l.length === 0) 
+				throw new Error('"location" is not a valid id for a location');
+		}
+		if ('service' in req.body) {
+			const s = await Service.find({ '_id': req.body.service, 'pet': req.body.pet });
+			if (s.length === 0)
+				throw new Error('"service" is not a valid id for a service');
+		}
+
+		const update = await Bookable_service.updateOne({ _id: req.params.id }, req.body);
+		console.log(update);
+
+		res.status(200).end();
+	}
+	catch (err) {
+		res.status(400).json({ 'message': err.message });
+	}
+});
 
 module.exports = router
