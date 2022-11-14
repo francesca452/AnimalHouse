@@ -91,7 +91,7 @@
 		function showSearchResult(results)
 		{
 			const r = $('#search-result');
-			let innerHTML = '<hr class="my-5">';
+			let innerHTML = '';
 
 			if (results.length == 0) {
 				innerHTML += `
@@ -109,13 +109,13 @@
 			}
 
 			for (let i = 0; i < results.length; i++) {
-				const split = results[i].day.split('T');
-				const day = split[0];
-				const time = split[1].substring(0,5);
 
-				const options = {'weekday': 'short', 'year': 'numeric', 'month': '2-digit', 'day': '2-digit'};
-				let strDate = new Date(day).toLocaleString('it-IT', options);
-				strDate = strDate.charAt(0).toUpperCase() + strDate.slice(1);
+				console.log(results[i].day);
+				let d = new Date(results[i].day);
+				let options = {'weekday': 'short', 'year': 'numeric', 'month': '2-digit', 'day': '2-digit'};
+				let strDate = d.toLocaleDateString('it-IT', options);
+					strDate = strDate.charAt(0).toUpperCase() + strDate.slice(1);
+				let strTime= d.toLocaleTimeString('it-IT', { 'timeStyle': 'short' });
 
 				innerHTML += `
 					<article class="border m-3">
@@ -126,7 +126,7 @@
 							</div>
 							<div class="d-flex justify-content-between">
 								<div class="d-flex flex-column">
-									<span class="fs-4 text-success fw-bold" style="margin-bottom: -10px;">${time}</span>
+									<span class="fs-4 text-success fw-bold" style="margin-bottom: -10px;">${strTime}</span>
 									<span>${strDate}</span> 
 								</div>
 								<div>
@@ -256,7 +256,13 @@
 				</form>
 				<!-- END search form -->
 
+				<hr class="my-5">
 				<div id="search-result">
+				</div>
+				<div class="row">
+					<a href="/backoffice/services/new" role="button" class="btn btn-outline-secondary">
+						<div class="p-2"><span class="fs-5">Aggiungi nuovo servizio</span> <span class="ps-2"><img src="backoffice/img/add-32.png" alt=""></span></div>
+					</a>
 				</div>
 				
 			</div>

@@ -57,7 +57,20 @@ router.get('/', async (req, res) => {
 	catch (err) {
         res.status(400).json({message: err.message});
     }    
-})
+});
+
+router.post('/new', async (req, res) => {
+	
+	try {
+		const bs = new Bookable_service(req.body);
+		await bs.save();
+		res.status(200).end();
+	}
+	catch (err) {
+		res.status(400).json({ 'message': err.message });
+	}
+});
+
 
 router.post('/:id/modify', async (req, res) => {
 	try {
@@ -77,8 +90,7 @@ router.post('/:id/modify', async (req, res) => {
 				throw new Error('"service" is not a valid id for a service');
 		}
 
-		const update = await Bookable_service.updateOne({ _id: req.params.id }, req.body);
-		console.log(update);
+		await Bookable_service.updateOne({ _id: req.params.id }, req.body);
 
 		res.status(200).end();
 	}

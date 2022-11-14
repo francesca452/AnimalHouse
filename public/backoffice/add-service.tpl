@@ -16,7 +16,7 @@
 					function (services)
 					{
 						const sel = $('#service-select');
-						let innerHTML = '<option value="" selected disasble hidden>-- seleziona un servizio --</option>';
+						let innerHTML = '<option value="" selected disasble hidden>-- Scegli il servizio --</option>';
 
 						for (let i = 0; i < services.length; i++) {
 							innerHTML += `<option value="${services[i]._id}">${services[i].name}</option>`;
@@ -38,15 +38,8 @@
 
 				const date = $('#modify-date').val(); /* parsed by the browser in UTC format */
 				const time = $('#modify-time').val(); /* 24-hour format hh:mm */
-
-				try {
-					const utcDate = new Date(date + 'T' + time).toISOString();
-				}
-				catch (err) {
-					alert('Aggiornamento fallito, data o ora mancante');
-					return;
-				}
-
+				const utcDate = new Date(date + 'T' + time).toISOString();
+			
 				const serviceData = {
 					'pet': pet,
 					'service': service,
@@ -56,13 +49,14 @@
 					'pet_size': pet_size,
 					'day': utcDate
 				};
+				console.log(serviceData);
 
 				$.post(`http://site212225.tw.cs.unibo.it/${f.attr('action')}`, serviceData)
 				.then((res) => {
-					alert('Aggionamento avvenuto con successo');
+					alert('Servizio creato con successo');
 				})
 				.catch((err) => {
-					alert('Aggiornamento fallito');
+					alert('Creazione servizio fallita');
 				});
 
 			}
@@ -73,17 +67,6 @@
 					updateService();
 					return false;
 				});
-
-				/* convert time from UTC to localTime */
-				const d = $('#modify-date');
-				const t = $('#modify-time');
-
-				let ld = new Date(`${d.val()}T${t.val()}:00Z`);
-				let strTime = `${ld.getHours()}:${ld.getMinutes()}`;
-				if (strTime.length < 5) strTime = '0' + strTime;
-				t.val(strTime);
-
-
 			});
 				
 			
@@ -137,41 +120,41 @@
 		<main class="my-5">
 			<div class="container">
 
-				<h2>Modifica il servizio</h2>
-				<form id="modify-form" autocomplete="off" method="POST" action="bookable_services/{{currentBookableService._id}}/modify">
+				<h2>{{currentBookableService.title}}</h2>
+				<form id="modify-form" autocomplete="off" method="POST" action="bookable_services/new">
 					<div class="row g-2 g-md-3">
 
 						<div class="col-md-6">
 							<label for="pet-select" class="col-form-label">Animale:</label>
-							<select class="form-select" name="pet" id="pet-select">
+							<select class="form-select" name="pet" id="pet-select" required>
+								<option value="" selected disabled hidden>-- Scegli l' animale --</option>
 								{{#each pets}}
-									<option value="{{this._id}}" {{#if this.currentPet}}selected{{/if}}>{{this.name}}</option>
+									<option value="{{this._id}}">{{this.name}}</option>
 								{{/each}}
 							</select>
 						</div>
 
 						<div class="col-md-6">
 							<label for="service-select" class="col-form-label">Servizio:</label>
-							<select class="form-select" name="service" id="service-select">
-								{{#each services}}
-									<option value="{{this._id}}" {{#if this.currentService}}selected{{/if}}>{{this.name}}</option>
-								{{/each}}
+							<select class="form-select" name="service" id="service-select" required>
+								<option value="" selected disabled hidden>-- Scegli il servizio --</option>
 							</select>
 						</div>
 
 						<div class="col-12">
 							<label for="location-select" class="col-form-label">Sede:</label>
-							<select class="form-select" name="location" id="location-select">
+							<select class="form-select" name="location" id="location-select" required>
+								<option value="" selected disabled hidden>-- Scegli la sede --</option>
 								{{#each locations}}
-									<option value="{{this._id}}" {{#if this.currentLocation}}selected{{/if}}>{{this.city}} - {{this.address}}</option>
+									<option value="{{this._id}}">{{this.city}} - {{this.address}}</option>
 								{{/each}}
 							</select>
 						</div>
 
 						<div class="col-md-4">
 							<label class="form-label" for="modify-price">Prezzo:</label>
-							<input step="0.01" min="0" type="number" value="{{currentBookableService.price}}" 
-								name="price" id="modify-price" class="form-control">
+							<input step="0.01" min="0" type="number" value="0" 
+								name="price" id="modify-price" class="form-control" required>
 						</div>
 
 						<div class="col-md-4">
@@ -179,34 +162,34 @@
 								Prenotazioni disponibili:
 							</label>
 							<input step="1" min="0" type="number" id="modify-reservation-left"
-								name="reservation_left" value="{{currentBookableService.reservation_left}}" class="form-control">
+								name="reservation_left" value="0" class="form-control" required>
 						</div>
 
 						<div class="col-md-4">
 							<label class="form-label" for="pet-size-select">
 								Taglia massima dell'animale:
 							</label>
-							<select class="form-select" name="pet_size" id="pet-size-select">
+							<select class="form-select" name="pet_size" id="pet-size-select" required>
 								<option value="" selected disabled hidden>-- Scegli la taglia --</option>
 								{{#each sizes}}
-									<option value="{{this.size}}" {{#if this.currentSize}}selected{{/if}}>{{this.size}}</option>
+									<option value="{{this.size}}">{{this.size}}</option>
 								{{/each}}
 							</select>
 						</div>
 
 						<div class="col-md-6">
 							<label class="active form-label" for="modify-day">Data:</label>
-							<input type="date" id="modify-date" class="form-control" value="{{currentBookableService.date}}">
+							<input type="date" id="modify-date" class="form-control" required>
 						</div>
 
 						<div class="col-md-6">
 							<label class="active form-label" for="modify-time">Ora:</label>
-							<input type="time"  id="modify-time" class="form-control" value="{{currentBookableService.time}}">
+							<input type="time" id="modify-time" class="form-control" required>
 						</div>
 					</div>
 
 					<div class="col-md-12 mt-3 d-flex justify-content-end">
-						<button type="submit" class="btn btn-success">Aggiorna</button>
+						<button type="submit" class="btn btn-success">Aggiungi</button>
 					</div>
 				</form>
 			</div>
