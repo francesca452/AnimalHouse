@@ -38,9 +38,10 @@
 
 				const date = $('#modify-date').val(); /* parsed by the browser in UTC format */
 				const time = $('#modify-time').val(); /* 24-hour format hh:mm */
+				let utcDate;
 
 				try {
-					const utcDate = new Date(date + 'T' + time).toISOString();
+					utcDate = new Date(date + 'T' + time).toISOString();
 				}
 				catch (err) {
 					alert('Aggiornamento fallito, data o ora mancante');
