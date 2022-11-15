@@ -16,6 +16,6 @@ const serviceSchema = new mongoose.Schema({
 	}
 });
 
-submissionSchema.index({ name: 1, pet: 1 }, { unique: true });
+serviceSchema.index({ name: 1, pet: 1 }, { unique: true });
 
 module.exports = mongoose.model('Service', serviceSchema)

@@ -2,11 +2,13 @@ const mongoose = require('mongoose')
 
 const productSchema = new mongoose.Schema({
     pet: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+		ref: 'pet',
         required: true
     },
     section: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+		ref: 'Section'
         required: true
     },
 	title: {
