@@ -10,13 +10,8 @@ const Bookable = require('./models/bookable_service')
 const cors     = require('cors')
 const path     = require('path')
 
-/*
-const passport = require('passport')
-const flash    = require('connect-flash')
-const session = require('express-session')
-//passport config
-require('./config/passport')(passport)
-*/
+const errorHandler = require('./middleware/error')
+
 
 global.rootDir = __dirname
 
@@ -24,24 +19,6 @@ app.use(express.static(path.join(global.rootDir, 'public')))
 app.use(express.urlencoded({ extended: true}))
 app.use(cors())
 
-/*
-//express-session e connect flash
-app.use(session({
-    secret: 'secret',
-    resave: false,
-    saveUninitialized: true
-}));
-app.use(flash())
-app.use((req, res, next) => {
-    res.locals.success_msg = req.flash('success_msg')
-    res.locals.success_msg = req.flash('error_msg')    
-    next()
-})
-
-//passport middleware
-app.use(passport.initialize())
-app.use(passport.session())
-*/
 
 
 app.use('/products', require('./routes/products'))
@@ -52,10 +29,11 @@ app.use('/bookable_services', require('./routes/bookable_services'))
 app.use('/backoffice', require('./routes/backoffice-tpl'))
 
 
-/*
-const userRouter = require('./routes/users')
-app.use('/users', userRouter)
-*/
+app.use('/auth', require('./routes/auth'))
+app.use('/private', require('./routes/private'))
+
+app.use(errorHandler)
+
 
 app.listen(8000, async () => {
 	console.log('Server Started\n')
@@ -196,7 +174,6 @@ app.listen(8000, async () => {
 		const s = new Service(services[i]);
 		await s.save();
 	}
-
 
 	await Bookable.deleteMany();
 
