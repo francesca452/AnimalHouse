@@ -1,6 +1,6 @@
 [
 	{
-		"pet": "dog",
+		"pet": "Cani",
 		"section": "Prodotti alimentari",
 		"title": "Croccantini",
 		"price": 10.50,
@@ -10,7 +10,7 @@
 		"pieces_left": 20
 	},
 	{
-		"pet": "dog",
+		"pet": "Cani",
 		"section": "Prodotti alimentari",
 		"title": "Scatoletta",
 		"price": 10.50,
@@ -20,7 +20,7 @@
 		"pieces_left": 20
 	},
 	{
-		"pet": "dog",
+		"pet": "Cani",
 		"section": "Prodotti alimentari",
 		"title": "Osso",
 		"price": 10.50,
@@ -30,7 +30,7 @@
 		"pieces_left": 20
 	},
 	{
-		"pet": "dog",
+		"pet": "Cani",
 		"section": "Prodotti sanitari",
 		"title": "Anti pulci",
 		"price": 19.50,

@@ -1,0 +1,23 @@
+[
+	{
+		"name": "Toilettatura",
+		"pet": "Cani",
+		"description": "Rimozione del pelo in eccesso"
+	},
+	{
+		"name": "Dog sitter",
+		"pet": "Cani",
+		"description": "Ci prendiamo cura del tuo cane"
+	},
+	{
+		"name": "Veterinario",
+		"pet": "Cani",
+		"description": "Veterinario specializzato in cani"
+	},
+	{
+		"name": "Veterinario",
+		"pet": "Gatti",
+		"description": "Veterinario specializzato in gatti"
+	}
+
+]

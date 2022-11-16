@@ -1,0 +1,29 @@
+[
+	{
+		"pet": "Cani",
+		"location": "Bologna-via indipendenza 5",
+		"service": "Toilettatura-Cani" ,
+		"day": "2022-11-20T10:30:00Z",
+		"price": 13.20,
+		"reservation_left": 1,
+		"pet_size": "grande"
+	},
+	{
+		"pet": "Cani",
+		"location": "Bologna-via Marconi 7",
+		"service": "Dog sitter-Cani",
+		"day": "2022-11-02T08:30:00Z",
+		"price": 20.22,
+		"reservation_left": 1,
+		"pet_size": "grande"
+	},
+	{
+		"pet": "Gatti",
+		"location": "Ancona-via del corso 1",
+		"service": "Veterinario-Gatti",
+		"day": "2022-11-10T14:30:00Z",
+		"price": 10.50,
+		"reservation_left": 1,
+		"pet_size": "grande"
+	}
+]

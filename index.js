@@ -6,11 +6,12 @@ const Product  = require('./models/product')
 const Pet      = require('./models/pet')
 const Location = require('./models/location')
 const Service  = require('./models/service')
+const Section  = require('./models/section')
 const Bookable = require('./models/bookable_service')
 const cors     = require('cors')
 const path     = require('path')
 
-const errorHandler = require('./middleware/error')
+/* const errorHandler = require('./middleware/error') */
 
 
 global.rootDir = __dirname
@@ -29,132 +30,35 @@ app.use('/bookable_services', require('./routes/bookable_services'))
 app.use('/backoffice', require('./routes/backoffice-tpl'))
 
 
-app.use('/auth', require('./routes/auth'))
-app.use('/private', require('./routes/private'))
+/* app.use('/auth', require('./routes/auth')) */
+/* app.use('/private', require('./routes/private')) */
 
-app.use(errorHandler)
+/* app.use(errorHandler) */
 
 
+const dbRefill = require('./dbImage/dbRefill.js');
 app.listen(8000, async () => {
 	console.log('Server Started\n')
 
 	await mongoose.connect(config.database)
+	await dbRefill.dbPopulate();
 
-	await Location.deleteMany()
-	const locations = [
-		{ 
-			city: 'Bologna',
-			address: 'via indipendenza 5'
-		},
-		{
-			city: 'Bologna',
-			address: 'via Marconi 7'
-		},
-		{
-			city: 'Ancona',
-			address: 'via del corso 1'
-		},
-		{
-			city: 'Cagliari',
-			address: 'viale Italia 10'
-		}
-	];
-	for (let i = 0; i < locations.length; i++) {
-		const l = new Location(locations[i]);
-		await l.save();
-	}
+	/*
+	const pets = await Pet.find({}).lean();	
+	const sections = await Section.find({}).lean();	
+	const products = await Product.find({}).lean();	
 
-	await Service.deleteMany()
+	console.log('pets', pets);
+	console.log('sections', sections);
+	console.log('products', products);
+	*/
 
-	let dogId = await Pet.find({ name: 'Cani' }).lean();
-	dogId = dogId[0]._id;
-	console.log('dogId: ', dogId);
+	const locations = await Location.find({}).lean();	
+	const services = await Service.find({}).lean();	
+	const bookable_services = await Bookable.find({}).lean();	
 
-	let catId = await Pet.find({ name: 'Gatti' }).lean();
-	catId = catId[0]._id;
-	console.log('catId: ', catId);
+	console.log('locations', locations);
+	console.log('services', services);
+	console.log('bookable_services', bookable_services);
 
-	const services = [
-		{
-			name: 'Toilettatura',
-			pet: dogId,
-			description: 'Rimozione del pelo in eccesso'
-		},
-		{
-			name: 'Dog sitter',
-			pet: dogId,
-			description: 'Ci prendiamo cura del tuo cane'
-		},
-		{
-			name: 'Veterinario',
-			pet: dogId,
-			description: 'Veterinario specializzato in cani'
-		},
-		{
-			name: 'Veterinario',
-			pet: catId,
-			description: 'Veterinario specializzato in gatti'
-		}
-
-	];
-	for (let i = 0; i < services.length; i++) {
-		const s = new Service(services[i]);
-		await s.save();
-	}
-
-	await Bookable.deleteMany();
-
-	let BolognaId = await Location.find({ city: 'Bologna' }).lean();
-	BolognaId = BolognaId[0]._id;
-	let AnconaId = await Location.find({ city: 'Ancona' }).lean();
-	AnconaId = AnconaId[0]._id;
-
-	let toilettatura_cani_Id = await Service.find({ name: 'Toilettatura', pet: dogId }).lean();
-	toilettatura_cani_Id = toilettatura_cani_Id[0]._id;
-
-	let dog_sitter_Id = await Service.find({ name: 'Dog sitter', pet: dogId }).lean();
-	dog_sitter_Id  = dog_sitter_Id[0]._id;
-
-	let veterinario_gatti_Id = await Service.find({ name: 'Veterinario', pet: catId }).lean();
-	veterinario_gatti_Id = veterinario_gatti_Id[0]._id;
-
-	bookable_service = [
-		{
-			pet: dogId,
-			location: BolognaId,
-			service: toilettatura_cani_Id,
-			day: new Date('2022-11-20T10:30:00Z'),
-			price: 13.20,
-			reservation_left: 1,
-			pet_size: 'grande'
-		},
-		{
-			pet: dogId,
-			location: BolognaId,
-			service: dog_sitter_Id,
-			day: new Date('2022-11-02T08:30:00Z'),
-			price: 20.22,
-			reservation_left: 1,
-			pet_size: 'grande'
-		},
-		{
-			pet: catId,
-			location: AnconaId,
-			service: veterinario_gatti_Id,
-			day: new Date('2022-11-10T14:30:00Z'),
-			price: 10.50,
-			reservation_left: 1,
-			pet_size: 'grande'
-		}
-	];
-
-	for (let i = 0; i < bookable_service.length; i++) {
-		try {
-			const b = new Bookable(bookable_service[i]);
-			const bnew = await b.save();
-		}
-		catch (err) {
-			console.error('Error: ', err)
-		}
-	}
-})
+});

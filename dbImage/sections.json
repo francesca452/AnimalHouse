@@ -1,14 +1,14 @@
 [
 	{
-		"pet": "dog",
-		"name": "Prodotti Alimentari",
-		"img": "",
-		"alt": ""
+		"pet": "Cani",
+		"name": "Prodotti alimentari",
+		"img": "http://site212225.tw.cs.unibo.it/",
+		"alt": "alt"
 	},
 	{
-		"pet": "dog",
-		"name": "Prodotti Sanitari",
-		"img": "",
-		"alt": ""
+		"pet": "Cani",
+		"name": "Prodotti sanitari",
+		"img": "http://site212225.tw.cs.unibo.it/",
+		"alt": "alt"
 	}
 ]

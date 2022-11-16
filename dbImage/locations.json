@@ -1,0 +1,18 @@
+[
+	{ 
+		"city": "Bologna",
+		"address": "via indipendenza 5"
+	},
+	{
+		"city": "Bologna",
+		"address": "via Marconi 7"
+	},
+	{
+		"city": "Ancona",
+		"address": "via del corso 1"
+	},
+	{
+		"city": "Cagliari",
+		"address": "viale Italia 10"
+	}
+]
