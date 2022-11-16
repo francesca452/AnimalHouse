@@ -55,61 +55,34 @@
 
 			</div>
 		</header>
-		<main class="my-5">
+		<main class="mb-5">
 			<div class="container">
-			<!--
-			<div class="card-deck card-break infinite-item" style="margin-bottom:0">
-				<div class="card" style="min-height:120px">
-					<a href="#">
-						<div class="row">
-							<div class="col-xl-4 card-col">
-								<div class="card-background-image overflow hidden p-0">
-									<img class="task-img" src="backoffice/img/company.png">
-								</div>
-							</div>
-							<div class="col-xl-8 card-col card-col-title">
-								<h1>Semantic Segmentation</h1>
-							</div>
-						</div>
-						<div class="card-body card-body-taskverse card-body-taskverse-mobile">
-							<div class="text-muted" style="min-height:19px; padding-top:2px;">
-								177 benchmarks
-								<br>
-							</div>
-							<div class="text-muted" style="padding-top:8px;">
-								3328 papets with code
-							</div>
-						</div>
-					</a>
-				</div>
-			</div>	
-			</div>
-			-->
 
-			{{#each petWithSections}}
-				<div class="row row-cols-1 row-cols-xl-4 g-4">
-					<h1>{{this.name}}</h1>
-					{{#each this.sections}}
-				  		<div class="col">
-							<div class="card">
-								<div class="row m-3">
-									<div class="col-5">
-										<img src="{{this.img}}" class="img-fluid">
+				{{#each petWithSections}}
+					<section>
+						<h1 class="ps-1 p-4"><span><img src="backoffice/img/icons8-forward-32.png" height="20" class="pe-3" alt=""></span>{{this.name}}</h1>
+						<div class="row row-cols-1 row-cols-xl-4 g-4">
+							{{#each this.sections}}
+								<div class="col">
+									<div class="card h-100">
+										<div class="row m-3">
+											<div class="col-5">
+												<img src="{{this.img}}" alt="{{this.alt}}" class="img-fluid">
+											</div>
+											<div class="col-7 d-flex align-items-center justify-content-center">
+												<h4>{{this.name}}</h4>
+											</div>
+										</div>
+										<div class="card-body">
+											<p class="card-text">{{this.description}}.</p>
+											<a href="#" class="stretched-link">Vedi</a>
+										</div>
 									</div>
-									<div class="col-7 d-flex align-items-center justify-content-center">
-									<h4>{{this.name}}</h4>
 								</div>
-							</div>
-					  		<div class="card-body">
-								<p class="card-text">{{this.description}}</p>
-					  		</div>
+							{{/each}}
 						</div>
-					{{/each}}
-				</div>
-			{{/each}}
-
-
-				
+					</section>
+				{{/each}}
 
 			</div>
 		</main>
