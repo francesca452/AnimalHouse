@@ -2,13 +2,22 @@
 	{
 		"pet": "Cani",
 		"name": "Prodotti alimentari",
-		"img": "http://site212225.tw.cs.unibo.it/",
-		"alt": "alt"
+		"img": "http://site212225.tw.cs.unibo.it/backoffice/img/dog-food.png",
+		"alt": "alt",
+		"description": "Alimenti secchi e umidi, snack e biscotti per una dieta salutare"
 	},
 	{
 		"pet": "Cani",
 		"name": "Prodotti sanitari",
-		"img": "http://site212225.tw.cs.unibo.it/",
-		"alt": "alt"
+		"img": "http://site212225.tw.cs.unibo.it/backoffice/img/health-dog.png",
+		"alt": "alt",
+		"description": "Antiparassitari, igiene e cura per le esigenze del tuo cane"
+	},
+	{
+		"pet": "Gatti",
+		"name": "Prodotti Alimentari",
+		"img": "http://site212225.tw.cs.unibo.it/backoffice/img/cat-food.png",
+		"alt": "alt",
+		"description": "Alimenti secchi e umidi per ogni gusto e dieta equilibrata"
 	}
 ]

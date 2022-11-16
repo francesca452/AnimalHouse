@@ -27,7 +27,8 @@ app.use('/pets', require('./routes/pets'))
 app.use('/locations', require('./routes/locations'))
 app.use('/services', require('./routes/services'))
 app.use('/bookable_services', require('./routes/bookable_services'))
-app.use('/backoffice', require('./routes/backoffice-tpl'))
+app.use('/backoffice/services', require('./tpl-script/backoffice-service'))
+app.use('/backoffice/ecommerce', require('./tpl-script/backoffice-ecommerce'))
 
 
 /* app.use('/auth', require('./routes/auth')) */
@@ -53,6 +54,7 @@ app.listen(8000, async () => {
 	console.log('products', products);
 	*/
 
+	/*
 	const locations = await Location.find({}).lean();	
 	const services = await Service.find({}).lean();	
 	const bookable_services = await Bookable.find({}).lean();	
@@ -60,5 +62,6 @@ app.listen(8000, async () => {
 	console.log('locations', locations);
 	console.log('services', services);
 	console.log('bookable_services', bookable_services);
+	*/
 
 });
