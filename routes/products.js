@@ -3,11 +3,7 @@ const router  = express.Router()
 const Product = require('../models/product')
 const path    = require('path')
 
-const {
-    getAllProducts,
-    getProductById,
-} = require('../controllers/productController')
-
+//VECCHIA VERSIONE GET PRODOTTI, vedi versione non commentata.
 /* GET /products?pet=${...}
  * Ritorna tutti i prodotti divisi per sezione per l'animale indicato nel parametro di query
  * output:
@@ -24,6 +20,8 @@ const {
 
 	Ogni prodotto è un json identico allo schema Product.
 */
+
+/*
 router.get('/', async (req, res) => {
 
     try {
@@ -51,6 +49,27 @@ router.get('/', async (req, res) => {
         res.status(500).json({message: err.message});
     }    
 })
+*/
+
+
+router.get('/', async (req, res) => {
+	
+	try {
+		let dbQuery = {};
+		if ('section' in req.query) dbQuery['section'] = req.query.section;
+
+		const products = await Product.find(dbQuery)
+			.populate('pet')
+			.populate('section')
+			.lean();
+		res.status(200).json(products);
+	}
+	catch (err) {
+        res.status(404).json({message: err.message});
+	}
+	
+});
+	
 
 /* crea un nuovo prodotto, 
  * NOTA: express cerca il primo route che fa match dall'alto verso il basso del file.
@@ -111,12 +130,6 @@ router.delete('/:id', async (req, res) => {
     }
 })
 
-//@desc GET all products
-//@route GET /products
-router.get("/front", getAllProducts)
 
-//@desc GET a product
-//@route GET /products/:id
-router.get("/front/:id", getProductById)
 
 module.exports = router

@@ -30,9 +30,6 @@ router.get('/', async (req, res) => {
 
 		const sections = await Section.find().populate('pet').lean();
 
-		console.log('sections');
-		console.log(sections);
-
 		let knownPet = {};
 
 		for (let i = 0; i < sections.length; i++) {
@@ -50,9 +47,6 @@ router.get('/', async (req, res) => {
 			data.petWithSections[knownPet[sections[i].pet._id]].sections.push(sections[i]);
 				
 		}
-
-		console.log('data ecommerce tpl');
-		console.log(data);
 
 		let tpl = await fs.readFile(
 			path.join(global.rootDir, 'public/backoffice/ecommerce.tpl'), 'utf8');

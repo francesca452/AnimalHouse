@@ -1,0 +1,172 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<base href="http://site212225.tw.cs.unibo.it/">
+		<title>Ecommerce</title>
+		<link rel="stylesheet" href="bootstrap-5.2.0-dist/css/bootstrap.min.css">
+		 <script src="bootstrap-5.2.0-dist/js/bootstrap.min.js"></script>
+
+		<script src="jquery-3.6.0.js"></script>
+		 <script>
+			function deleteProduct(productId)
+			{
+				$.ajax({
+					'url': `http://site212225.tw.cs.unibo.it/products/${productId}`,
+					'method': 'DELETE',
+				})
+				.then((res) => {
+					$.getJSON(`http://site212225.tw.cs.unibo.it/products?section=${sectionId}`, 
+						(products) => { populateWithProducts(products); });
+					
+				})
+				.catch((err) => {
+					console.error(err);
+				})
+			}
+
+
+
+			function populateWithProducts(products)
+			{
+				const pl = $('#product-list');
+				let innerHTML = '';
+
+				if (products.length == 0) {
+					innerHTML += `
+						<h3 class="fw-bold text-secondary text-center">Nessun risultato...</h3>
+						<p class="text-secondary text-center">
+							Non ci sono prodotti disponibili per questa sezione.
+						</p>`;
+				}
+				else {
+					innerHTML += `
+						<h3 class="text-secondary">
+							<span class="fw-bold">${products[0].pet.name}</span> - ${products[0].section.name}
+						</h3>`;
+				}
+
+				for (let i = 0; i < products.length; i++) {
+					innerHTML += `
+					<div class="row justify-content-center border-bottom border-secondary border-2 mt-5 pb-4" 
+					style="--bs-border-opacity: .3;">
+						<div class="col-8 col-md-2 pb-3"> 
+							<img src="${products[i].image}" class="img-fluid" alt="${products[i].alt}">
+						</div>
+						<div class="col-12 col-md-10">
+							<h5 class="mt-0">${products[i].title}</h5>
+							<span class="pe-1">prezzo: ${products[i].price}</span> <span>pezzi rimanenti: ${products[i].pieces_left}</span>
+							<div class="row">
+								<p class="col-12 col-md-9 m-0">
+									Descrizione: <br>
+									${products[i].description}
+								</p>
+								<div class="pt-2 pt-md-0 col-md-3">
+									<button class="btn btn-outline-success btn-sm">Modifica</button>
+									<button class="btn btn-outline-danger btn-sm" onclick="deleteProduct('${products[i]._id}')">
+										Elimina
+									</button>
+								</div>
+							</div>
+						</div>
+				</div>`;
+				}
+
+				pl.html(innerHTML);
+
+			}
+
+			let sectionId;
+		 	$(document).ready(() => {
+				sectionId = getUrlParameter('section');
+				if (sectionId !== undefined) {
+					$.getJSON(`http://site212225.tw.cs.unibo.it/products?section=${sectionId}`, 
+						(products) => { populateWithProducts(products); });
+				}
+			});
+
+			function getUrlParameter(sParam)
+			{
+    			let sPageURL = window.location.search.substring(1);
+        		let sURLVariables = sPageURL.split('&');
+
+    			for (let i = 0; i < sURLVariables.length; i++) {
+        			let sParameterName = sURLVariables[i].split('=');
+
+        			if (sParameterName[0] === sParam) {
+						return sParameterName[1];
+        			}
+    			}
+			}
+		 </script>
+	</head>
+
+	<body>
+		<header>
+			<div class="container-fluid">
+
+				<!-- LOGO e NOME PAGINA -->
+				<div class="row d-flex flex-nowrap my-3 px-0 px-sm-5">
+					<div class="col-2 col-lg-1">
+						<span><img class="img-fluid" src="backoffice/img/company.png" alt="Company logo"></span>
+					</div>
+					<div class="col-auto d-flex align-items-center">
+						<h1>BACK OFFICE APPS</h1>
+					</div>
+				</div>
+				<!-- END logo e nome pagina -->
+
+				<!-- NAVBAR GLOBAL -->
+				<div class="row border-top border-bottom border-secondary bg-secondary mt-3 px-0 px-sm-5" style="--bs-bg-opacity: .15;">
+					<nav class="navbar navbar-expand-lg" style="padding-top: 4px;padding-bottom: 4px;">
+						<div class="container-fluid">
+							<a class="navbar-brand" href="backoffice/">Backoffice</a>
+							<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+							  <span class="navbar-toggler-icon"></span>
+							</button>
+							<div class="collapse navbar-collapse" id="navbarNav">
+								<ul class="navbar-nav">
+									<li class="nav-item">
+										<a class="nav-link" href="#">Gestione utenti</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="backoffice/ecommerce">Ecommerce</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="#">Serivizi in negozio</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="#">Servizi di comunità</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</nav>
+				</div>
+				<!-- END navbar global -->
+
+			</div>
+		</header>
+		<main class="my-5">
+			<div class="container">
+				<div id="product-list">
+				</div>
+
+				<div class="row mt-3">
+					<a href="/backoffice/ecommerce/product/new" role="button" class="btn btn-outline-secondary">
+						<div class="d-inline-flex p-2">
+							<span class="fs-5">Aggiungi nuovo prodotto</span> 
+							<span class="ps-2"><img src="backoffice/img/add-32.png" alt=""></span>
+						</div>
+					</a>
+				</div>
+			</div>
+		</main>
+		<footer class="border-top bg-secondary" style="--bs-bg-opacity: .1">
+			<div class="container-fluid py-5">
+				<p class="text-center">Questa è una frase finale per riempire lo spazio del footer</p>
+			</div>
+		</footer>
+	</body>
+</html>

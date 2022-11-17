@@ -75,7 +75,7 @@
 										</div>
 										<div class="card-body">
 											<p class="card-text">{{this.description}}.</p>
-											<a href="#" class="stretched-link">Vedi</a>
+											<a href="http://site212225.tw.cs.unibo.it/backoffice/products.html?section={{this._id}}" class="stretched-link">Vedi</a>
 										</div>
 									</div>
 								</div>
