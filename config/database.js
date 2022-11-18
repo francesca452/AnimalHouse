@@ -14,5 +14,5 @@ module.exports = {
     EMAIL_USERNAME:'apikey',
     EMAIL_PASSWORD:'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',
 
-    EMAIL_FROM:'cosimocoppolaro.fi@gmail.com
+    EMAIL_FROM:'cosimocoppolaro.fi@gmail.com'
 }
