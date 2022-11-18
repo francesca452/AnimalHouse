@@ -1,0 +1,210 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<base href="http://site212225.tw.cs.unibo.it/">
+		<title>Ecommerce</title>
+		<link rel="stylesheet" href="bootstrap-5.2.0-dist/css/bootstrap.min.css">
+		<script type="application/javascript" src="/bootstrap-5.2.0-dist/js/bootstrap.min.js"></script>
+		<script src="jquery-3.6.0.js"></script>
+		<script>
+			function getAndShowPetSections()
+			{
+				const pet = $('#pet-select > option:checked').attr('value');
+				$.getJSON(`http://site212225.tw.cs.unibo.it/sections?pet=${pet}`, 
+					function (sections)
+					{
+						const sel = $('#section-select');
+						let innerHTML = '<option value="" selected disasble hidden>-- Scegli la sezione --</option>';
+
+						for (let i = 0; i < sections.length; i++) {
+							innerHTML += `<option value="${sections[i]._id}">${sections[i].name}</option>`;
+						}
+
+						sel.html(innerHTML);
+					});
+			}
+
+			function getAndShowPetSelect()
+			{
+				$.getJSON('http://site212225.tw.cs.unibo.it/pets', 
+					function (pets)
+					{
+						const sel = $('#pet-select');
+						let innerHTML = '<option value="" selected disabled hidden>-- Scegli l\'animale --</option>';
+
+						for (let i = 0; i < pets.length; i++) {
+							innerHTML += `<option value="${pets[i]._id}">${pets[i].name}</option>`;
+						}
+
+						sel.html(innerHTML);
+					});
+
+			}
+
+			function createNewProduct()
+			{
+				const f = $('#product-form');
+				const pet = $('#pet-select > option:selected').val();
+				const section = $('#section-select > option:selected').val();
+				const title = $('#title').val();
+				const price = $('#price').val();
+				const pieces_left = $('#pieces-left').val();
+				const image = $('#img').val();
+				const alt = $('#alt').val();
+				const description = $('#description').val();
+
+				const productData = {
+					'pet': pet,
+					'section': section,
+					'title': title,
+					'price': price,
+					'pieces_left': pieces_left,
+					'image': image,
+					'alt': alt,
+					'description': description
+				};
+
+				console.log(productData);
+
+				$.post(`http://site212225.tw.cs.unibo.it/${f.attr('action')}`, productData)
+				.then((res) => {
+					alert('Prodotto creato con successo');
+				})
+				.catch((err) => {
+					alert('Creazione prodotto fallita');
+				});
+
+			}
+
+			$(document).ready(() => {
+
+				getAndShowPetSelect();
+
+				$('#pet-select').change(getAndShowPetSections);
+
+				$('#product-form').submit((event) => {
+					createNewProduct();
+					return false;
+				});
+
+			});
+				
+			
+		</script>
+	</head>
+
+	<body>
+		<header>
+			<div class="container-fluid">
+				<div class="row d-flex flex-nowrap my-3 px-0 px-sm-5">
+					<div class="col-2 col-lg-1">
+						<span><img class="img-fluid" src="backoffice/img/company.png" alt="Company logo"></span>
+					</div>
+					<div class="col-auto d-flex align-items-center">
+						<h1>BACK OFFICE APPS</h1>
+					</div>
+				</div>
+			</div>
+
+			<!-- NAVBAR GLOBAL -->
+			<div class="row border-top border-bottom border-secondary bg-secondary mt-3 px-0 px-sm-5" style="--bs-bg-opacity: .15;">
+				<nav class="navbar navbar-expand-lg" style="padding-top: 4px;padding-bottom: 4px;">
+					<div class="container-fluid">
+						<a class="navbar-brand" href="backoffice/">Backoffice</a>
+						<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+						  <span class="navbar-toggler-icon"></span>
+						</button>
+						<div class="collapse navbar-collapse" id="navbarNav">
+							<ul class="navbar-nav">
+								<li class="nav-item">
+									<a class="nav-link" href="#">Gestione utenti</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="backoffice/ecommerce.html">Ecommerce</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="backoffice/services.html">Serivizi in negozio</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="#">Servizi di comunità</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</nav>
+			</div>
+			<!-- END navbar global -->
+
+		</header>
+
+		<main class="my-5">
+			<div class="container">
+
+				<h2>Aggiungi un nuovo prodotto</h2>
+				<form id="product-form" autocomplete="off" method="POST" action="products/new">
+					<div class="row g-2 g-md-3">
+
+						<div class="col-md-6">
+							<label for="pet-select" class="col-form-label">Animale:</label>
+							<select class="form-select" id="pet-select" required>
+							</select>
+						</div>
+
+						<div class="col-md-6">
+							<label for="section-select" class="col-form-label">Sezione:</label>
+							<select class="form-select" id="section-select" required>
+								<option value="" selected disabled hidden>-- Scegli la sezione --</option>
+							</select>
+						</div>
+
+						<div class="col-12">
+							<label class="form-label" for="title">Nome del prodotto:</label>
+							<input type="text" id="title" class="form-control" required>
+						</div>
+
+						<div class="col-md-6">
+							<label class="form-label" for="price">Prezzo:</label>
+							<input step="0.01" min="0" type="number" value="0"
+								id="price" class="form-control" required>
+						</div>
+
+						<div class="col-md-6">
+							<label class="form-label" for="pieces-left">
+								Pezzi disponibili:
+							</label>
+							<input step="1" min="0" type="number" id="pieces-left" 
+								value="0" class="form-control" required>
+						</div>
+
+						<div class="col-md-6">
+							<label class="form-label" for="img">Url immagine:</label>
+							<input type="text" id="img" class="form-control" required>
+						</div>
+
+						<div class="col-md-6">
+							<label class="form-label" for="alt">Testo alternativo immagine:</label>
+							<input type="text" id="alt" class="form-control" required>
+						</div>
+
+						<div class="col-12">
+							<label class="form-label" for="description">Descrizione prodotto:</label>
+							<input type="text" id="description" class="form-control" required>
+						</div>
+
+					</div>
+
+					<div class="col-md-12 mt-3 d-flex justify-content-end">
+						<button type="submit" class="btn btn-success">Aggiungi</button>
+					</div>
+				</form>
+			</div>
+		</main>
+		<footer class="border-top bg-secondary" style="--bs-bg-opacity: .1">
+			<div class="container-fluid py-5">
+				<p class="text-center">Questa è una frase finale per riempire lo spazio del footer</p>
+			</div>
+		</footer>
+	</body>
+</html>
