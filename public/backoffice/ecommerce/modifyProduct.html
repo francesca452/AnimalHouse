@@ -9,41 +9,64 @@
 		<script type="application/javascript" src="/bootstrap-5.2.0-dist/js/bootstrap.min.js"></script>
 		<script src="jquery-3.6.0.js"></script>
 		<script>
-			function getAndShowPetSections()
+			function getAndShowPetSections(petId, defaultSectionId)
 			{
-				const pet = $('#pet-select > option:checked').attr('value');
-				$.getJSON(`http://site212225.tw.cs.unibo.it/sections?pet=${pet}`, 
+				$.getJSON(`http://site212225.tw.cs.unibo.it/sections?pet=${petId}`, 
 					function (sections)
 					{
 						const sel = $('#section-select');
-						let innerHTML = '<option value="" selected disasble hidden>-- Scegli la sezione --</option>';
+						let innerHTML = '';
+						if (defaultSectionId === 0) {
+							innerHTML += `<option value="" selected disable hidden>-- Seleziona una sezione --</option>`;
+						}
 
 						for (let i = 0; i < sections.length; i++) {
-							innerHTML += `<option value="${sections[i]._id}">${sections[i].name}</option>`;
+							if (sections._id === defaultSectionId) {
+								innerHTML += `<option value="${sections[i]._id}" selected>${sections[i].name}</option>`;
+							}
+							else {
+								innerHTML += `<option value="${sections[i]._id}">${sections[i].name}</option>`;
+							}
 						}
 
 						sel.html(innerHTML);
 					});
 			}
 
-			function getAndShowPetSelect()
+			function getAndShowPetSelect(defaultPetId)
 			{
 				$.getJSON('http://site212225.tw.cs.unibo.it/pets', 
 					function (pets)
 					{
 						const sel = $('#pet-select');
-						let innerHTML = '<option value="" selected disabled hidden>-- Scegli l\'animale --</option>';
+						let innerHTML = '';
 
 						for (let i = 0; i < pets.length; i++) {
-							innerHTML += `<option value="${pets[i]._id}">${pets[i].name}</option>`;
+							if (pets[i]._id === defaultPetId) {
+								innerHTML += `<option value="${pets[i]._id}" selected>${pets[i].name}</option>`;
+							}
+							else {
+								innerHTML += `<option value="${pets[i]._id}">${pets[i].name}</option>`;
+							}
 						}
 
 						sel.html(innerHTML);
+
 					});
 
 			}
 
-			function createNewProduct()
+			function initForm(product)
+			{
+				$('#title').val(product.title);
+				$('#price').val(product.price);
+				$('#pieces-left').val(product.pieces_left);
+				$('#img').val(product.image);
+				$('#alt').val(product.alt);
+				$('#description').val(product.description);
+			}
+
+			function modifyProduct(productId)
 			{
 				const f = $('#product-form');
 				const pet = $('#pet-select > option:selected').val();
@@ -66,9 +89,7 @@
 					'description': description
 				};
 
-				console.log(productData);
-
-				$.post(`http://site212225.tw.cs.unibo.it/${f.attr('action')}`, productData)
+				$.post(`http://site212225.tw.cs.unibo.it/products/${productId}/modify`, productData)
 				.then((res) => {
 					alert('Prodotto creato con successo');
 				})
@@ -78,20 +99,41 @@
 
 			}
 
+			let productId = getUrlParameter('id');
 			$(document).ready(() => {
-
-				getAndShowPetSelect();
-
-				$('#pet-select').change(getAndShowPetSections);
+				$.getJSON(`http://site212225.tw.cs.unibo.it/products?id=${productId}`,
+					function (product) {
+						initForm(product[0]);
+						getAndShowPetSelect(product[0].pet._id);
+						getAndShowPetSections(product[0].pet._id, product[0].section._id);
+					});
+				
+				$('#pet-select').change(
+					function () {
+						const pet = $('#pet-select > option:selected').attr('value');
+						getAndShowPetSections(pet, 0);
+					});
 
 				$('#product-form').submit((event) => {
-					createNewProduct();
+					modifyProduct(productId);
 					return false;
 				});
 
 			});
 				
-			
+			function getUrlParameter(sParam)
+			{
+    			let sPageURL = window.location.search.substring(1);
+        		let sURLVariables = sPageURL.split('&');
+
+    			for (let i = 0; i < sURLVariables.length; i++) {
+        			let sParameterName = sURLVariables[i].split('=');
+
+        			if (sParameterName[0] === sParam) {
+						return sParameterName[1];
+        			}
+    			}
+			}
 		</script>
 	</head>
 
@@ -142,8 +184,8 @@
 		<main class="my-5">
 			<div class="container">
 
-				<h2>Aggiungi un nuovo prodotto</h2>
-				<form id="product-form" autocomplete="off" method="POST" action="products/new">
+				<h2>Modifica il prodotto</h2>
+				<form id="product-form" autocomplete="off">
 					<div class="row g-2 g-md-3">
 
 						<div class="col-md-6">
@@ -155,7 +197,6 @@
 						<div class="col-md-6">
 							<label for="section-select" class="col-form-label">Sezione:</label>
 							<select class="form-select" id="section-select">
-								<option value="" selected disabled hidden>-- Scegli la sezione --</option>
 							</select>
 						</div>
 
@@ -196,7 +237,7 @@
 					</div>
 
 					<div class="col-md-12 mt-3 d-flex justify-content-end">
-						<button type="submit" class="btn btn-success">Aggiungi</button>
+						<button type="submit" class="btn btn-success">Modifica</button>
 					</div>
 				</form>
 			</div>

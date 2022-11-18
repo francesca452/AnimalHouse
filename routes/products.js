@@ -2,6 +2,7 @@ const express = require('express')
 const router  = express.Router()
 const Product = require('../models/product')
 const Section = require('../models/section')
+const Pet     = require('../models/pet')
 const path    = require('path')
 
 //VECCHIA VERSIONE GET PRODOTTI, vedi versione non commentata.
@@ -58,6 +59,7 @@ router.get('/', async (req, res) => {
 	try {
 		let dbQuery = {};
 		if ('section' in req.query) dbQuery['section'] = req.query.section;
+		if ('id' in req.query) dbQuery['_id'] = req.query.id;
 
 		const products = await Product.find(dbQuery)
 			.populate('pet')
