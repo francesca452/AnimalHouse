@@ -50,7 +50,7 @@ router.get('/', async (req, res) => {
 		}
 
 		let tpl = await fs.readFile(
-			path.join(global.rootDir, 'public/backoffice/ecommerce.tpl'), 'utf8');
+			path.join(global.rootDir, 'public/backoffice/ecommerce/ecommerce.tpl'), 'utf8');
 		let ready = Handlebars.compile(tpl);
 		res.status(200).send(ready(data))
 
@@ -60,21 +60,6 @@ router.get('/', async (req, res) => {
 	}
 
 	
-});
-
-router.get('/product/new', async (req, res) => {
-
-	try {
-		const pets = Pet.find().lean();
-		let tpl = await fs.readFile(
-				path.join(global.rootDir, 'public/backoffice/add-product.tpl'), 'utf8');
-		let ready = Handlebars.compile(tpl);
-		res.status(200).send(ready({ 'pets': pets }))
-	}
-	catch (err) {
-		res.status(400).json({ 'message': err.message });
-	}
-
 });
 
 module.exports = router;

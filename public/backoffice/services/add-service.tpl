@@ -49,7 +49,6 @@
 					'pet_size': pet_size,
 					'day': utcDate
 				};
-				console.log(serviceData);
 
 				$.post(`http://site212225.tw.cs.unibo.it/${f.attr('action')}`, serviceData)
 				.then((res) => {
@@ -100,10 +99,10 @@
 									<a class="nav-link" href="#">Gestione utenti</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" href="backoffice/ecommerce.html">Ecommerce</a>
+									<a class="nav-link" href="backoffice/ecommerce/">Ecommerce</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" href="backoffice/services.html">Serivizi in negozio</a>
+									<a class="nav-link" href="backoffice/services/">Serivizi in negozio</a>
 								</li>
 								<li class="nav-item">
 									<a class="nav-link" href="#">Servizi di comunità</a>

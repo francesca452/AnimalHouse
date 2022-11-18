@@ -38,7 +38,7 @@
 										<a class="nav-link" href="#">Gestione utenti</a>
 									</li>
 									<li class="nav-item">
-										<a class="nav-link active" aria-current="page" href="backoffice/ecommerce.html">Ecommerce</a>
+										<a class="nav-link active" aria-current="page" href="backoffice/ecommerce">Ecommerce</a>
 									</li>
 									<li class="nav-item">
 										<a class="nav-link" href="#">Serivizi in negozio</a>
@@ -75,7 +75,7 @@
 										</div>
 										<div class="card-body">
 											<p class="card-text">{{this.description}}.</p>
-											<a href="http://site212225.tw.cs.unibo.it/backoffice/products.html?section={{this._id}}" class="stretched-link">Vedi</a>
+											<a href="http://site212225.tw.cs.unibo.it/backoffice/ecommerce/products.html?section={{this._id}}" class="stretched-link">Vedi</a>
 										</div>
 									</div>
 								</div>

@@ -13,11 +13,11 @@
 
 		function invertArrow(btn)
 		{
+			/*
 			const text = btn.innerText;
 			console.log(btn);
 			console.log(text);
 
-			/*
 			if (text === '▼') btn.inenrText = ▲;
 			else if (text === '▲') btn.inenrText = ▼;
 			*/
@@ -110,7 +110,6 @@
 
 			for (let i = 0; i < results.length; i++) {
 
-				console.log(results[i].day);
 				let d = new Date(results[i].day);
 				let options = {'weekday': 'short', 'year': 'numeric', 'month': '2-digit', 'day': '2-digit'};
 				let strDate = d.toLocaleDateString('it-IT', options);
@@ -156,6 +155,7 @@
 								<p>Posti disponibili: <span class="text-black fw-bold">${results[i].reservation_left}</span></p>
 								<div class="d-flex justify-content-end">
 									<a role="button" class="btn btn-outline-success" href="backoffice/services/${results[i]._id}/modify"><span class="fw-bold">Modifica</span></a>
+									<button class="ms-2 btn btn-outline-danger" onclick="deleteBookableService('${results[i]._id}')"><span class="fw-bold">Elimina</span></button>
 								</div>
 							</div>
 						</div>
@@ -167,7 +167,17 @@
 			r.html(innerHTML);
 		}
 
+		function deleteBookableService(id)
+		{
+			$.post(`http://site212225.tw.cs.unibo.it/bookable_services/${id}/delete`)
+			.then((res) => {
+				getBookable_service();
+			})
+			.catch((err) => {
+				alert('Errore, eliminazione fallita');
+			});
 
+		}
 		
 			
 		$(document).ready(() => {
@@ -214,7 +224,7 @@
 									<a class="nav-link" href="backoffice/ecommerce.html">Ecommerce</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link active" aria-current="page" href="backoffice/services.html">Serivizi in negozio</a>
+									<a class="nav-link active" aria-current="page" href="backoffice/services/">Serivizi in negozio</a>
 								</li>
 								<li class="nav-item">
 									<a class="nav-link" href="#">Servizi di comunità</a>

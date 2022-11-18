@@ -25,7 +25,7 @@ router.get('/new', async (req, res) => {
 			'sizes': sizes
 		};
 		let tpl = await fs.readFile(
-			path.join(global.rootDir, 'public/backoffice/add-service.tpl'), 'utf8');
+			path.join(global.rootDir, 'public/backoffice/services/add-service.tpl'), 'utf8');
 		let ready = Handlebars.compile(tpl);
 		res.status(200).send(ready(data))
 	}
@@ -92,7 +92,7 @@ router.get('/:id/modify', async (req, res) => {
 		};
 
 		let tpl = await fs.readFile(
-			path.join(global.rootDir, 'public/backoffice/modify-service.tpl'), 'utf8');
+			path.join(global.rootDir, 'public/backoffice/services/modify-service.tpl'), 'utf8');
 		let ready = Handlebars.compile(tpl);
 		res.status(200).send(ready(data))
 	}

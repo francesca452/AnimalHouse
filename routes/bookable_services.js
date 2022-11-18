@@ -99,4 +99,15 @@ router.post('/:id/modify', async (req, res) => {
 	}
 });
 
+router.post('/:id/delete', async (req, res) => {
+	
+	try {
+		await Bookable_service.deleteOne({ _id: req.params.id });
+		res.status(200).end();
+	}
+	catch (err) {
+		res.status(400).json({ 'message': err.message });
+	}
+});
+
 module.exports = router

@@ -8,7 +8,7 @@ const productSchema = new mongoose.Schema({
     },
     section: {
         type: mongoose.Schema.Types.ObjectId,
-		ref: 'Section',
+		ref: 'section',
         required: true
     },
 	title: {

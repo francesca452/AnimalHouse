@@ -1,6 +1,7 @@
 const express = require('express')
 const router  = express.Router()
 const Product = require('../models/product')
+const Section = require('../models/section')
 const path    = require('path')
 
 //VECCHIA VERSIONE GET PRODOTTI, vedi versione non commentata.
@@ -91,23 +92,24 @@ router.post('/new', async (req, res) =>{
 })
 
 //Update one
-router.post('/:id', async (req, res) => {
+router.post('/:id/modify', async (req, res) => {
 
     try {
+		if ('pet' in req.body) {
+			const p = await Pet.findById(req.body.pet);
+			if (p.length === 0) 
+				throw new Error('"pet" is not a valid id for a pet');
+		}
+		if ('section' in req.body) {
+			const s = await Section.find({ '_id': req.body.section, 'pet': req.body.pet });
+			if (s.length === 0)
+				throw new Error('"section" is not a valid id for a section');
+		}
 
-		let p = await Product.findById(req.params.id)
+		await Product.updateOne({ _id: req.params.id }, req.body);
 
-		if (('pet' in req.body) && (req.body.pet !== '')) p.pet = req.body.pet
-		if (('section' in req.body) && (req.body.section !== '')) p.section = req.body.section
-		if (('title' in req.body) && (req.body.title !== '')) p.title = req.body.title
-		if (('price' in req.body) && (req.body.price !== '')) p.price = req.body.price
-		if (('pieces_left' in req.body) && (req.body.pieces_left !== '')) p.pieces_left = req.body.pieces_left
-		if (('alt' in req.body) && (req.body.alt !== '')) p.alt = req.body.alt
-		if (('description' in req.body) && (req.body.description !== '')) p.description = req.body.description
 
-		await p.save()
-
-        res.status(200).end();
+		res.status(200).end();
 
     }   
     catch(err) {
