@@ -6,6 +6,7 @@ const Product = require('../models/product')
 const Service  = require('../models/service')
 const Location = require('../models/location')
 const Bookable = require('../models/bookable_service')
+const User    = require('../models/user')
 const fs      = require('fs').promises;
 const path    = require('path');
 
@@ -17,6 +18,7 @@ let dbPopulate = async function()
 	await Location.deleteMany();
 	await Service.deleteMany();
 	await Bookable.deleteMany();
+	await User.deleteMany();
 
 	let petsMap = {};
 	petsMap = await petPopulate();
@@ -33,6 +35,8 @@ let dbPopulate = async function()
 	servicesMap = await servicesPopulate(petsMap);
 
 	await BookableServicePopulate(petsMap, locationsMap, servicesMap);
+
+	await userPopulate();
 }
 
 async function petPopulate()
@@ -151,7 +155,19 @@ async function BookableServicePopulate(petsMap, locationsMap, servicesMap)
 	}
 }
 
+async function userPopulate()
+{
+	let users = await fs.readFile(
+		path.join(global.rootDir, 'dbImage/users.json'), 
+		'utf8');
 
+	users = JSON.parse(users);
+
+	for (let i = 0; i < users.length; i++) {
+		const u = new User(users[i]);
+		await u.save();
+	}
+}
 
 module.exports = {
 	'dbPopulate': dbPopulate

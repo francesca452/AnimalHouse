@@ -16,12 +16,12 @@
 					{
 						const sel = $('#section-select');
 						let innerHTML = '';
-						if (defaultSectionId === 0) {
+						if (defaultSectionId === undefined) {
 							innerHTML += `<option value="" selected disable hidden>-- Seleziona una sezione --</option>`;
 						}
 
 						for (let i = 0; i < sections.length; i++) {
-							if (sections._id === defaultSectionId) {
+							if (sections[i]._id === defaultSectionId) {
 								innerHTML += `<option value="${sections[i]._id}" selected>${sections[i].name}</option>`;
 							}
 							else {
@@ -91,10 +91,10 @@
 
 				$.post(`http://site212225.tw.cs.unibo.it/products/${productId}/modify`, productData)
 				.then((res) => {
-					alert('Prodotto creato con successo');
+					alert('Prodotto modificato con successo');
 				})
 				.catch((err) => {
-					alert('Creazione prodotto fallita');
+					alert('Modifica prodotto fallita');
 				});
 
 			}
@@ -111,7 +111,7 @@
 				$('#pet-select').change(
 					function () {
 						const pet = $('#pet-select > option:selected').attr('value');
-						getAndShowPetSections(pet, 0);
+						getAndShowPetSections(pet, undefined);
 					});
 
 				$('#product-form').submit((event) => {

@@ -66,8 +66,6 @@
 					'description': description
 				};
 
-				console.log(productData);
-
 				$.post(`http://site212225.tw.cs.unibo.it/${f.attr('action')}`, productData)
 				.then((res) => {
 					alert('Prodotto creato con successo');

@@ -11,7 +11,7 @@ const Bookable = require('./models/bookable_service')
 const cors     = require('cors')
 const path     = require('path')
 
-/* const errorHandler = require('./middleware/error') */
+const errorHandler = require('./middleware/error')
 
 
 global.rootDir = __dirname
@@ -27,15 +27,16 @@ app.use('/pets', require('./routes/pets'))
 app.use('/locations', require('./routes/locations'))
 app.use('/services', require('./routes/services'))
 app.use('/sections', require('./routes/sections'))
+app.use('/users', require('./routes/users'))
 app.use('/bookable_services', require('./routes/bookable_services'))
 app.use('/backoffice/services', require('./tpl-script/backoffice-service'))
 app.use('/backoffice/ecommerce', require('./tpl-script/backoffice-ecommerce'))
 
 
-/* app.use('/auth', require('./routes/auth')) */
+app.use('/auth', require('./routes/auth'))
 /* app.use('/private', require('./routes/private')) */
 
-/* app.use(errorHandler) */
+app.use(errorHandler)
 
 
 const dbRefill = require('./dbImage/dbRefill.js');
