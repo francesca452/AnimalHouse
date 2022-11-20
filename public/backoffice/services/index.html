@@ -168,8 +168,10 @@
 		}
 
 		function deleteBookableService(id)
-		{
-			$.post(`http://site212225.tw.cs.unibo.it/bookable_services/${id}/delete`)
+		{	$.ajax({
+					'url': `http://site212225.tw.cs.unibo.it/bookable_services/${id}`,
+					'method': 'DELETE'
+			})
 			.then((res) => {
 				getBookable_service();
 			})

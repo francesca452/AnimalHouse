@@ -11,7 +11,7 @@ const locationSchema = new mongoose.Schema({
     }
 })
 
-serviceSchema.index({ city: 1, address: 1 }, { unique: true });
+locationSchema.index({ city: 1, address: 1 }, { unique: true });
 
 module.exports = mongoose.model('location', locationSchema)
 
