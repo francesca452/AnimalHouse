@@ -1,0 +1,595 @@
+openapi: 3.0.3
+info:
+  title: Swagger AnimalHouse - OpenAPI 3.0
+  version: 1.0.0
+servers:
+  - url: https://site212225.tw.cs.unibo.it/
+tags:
+  - name: pet
+    description: API to obtain info about pets
+  - name: ecommerce
+    description: API to obtain info about ecommerce
+  - name: in-store services
+    description: API to obtain info about (1) location of the physical store, (2) types of services that can be provided in a physical store, (3) services that can be booked in specific physical store
+  - name: user
+    description: API to obtain info about users and to authenticate or register a user.
+paths:
+  /pets:
+    get:
+      tags:
+        - pet
+      summary: Get the list of all pets.
+      responses:
+        '200':
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'          
+        '400':
+          description: Generic client error.
+  /sections:
+    get:
+      tags:
+        - ecommerce
+      summary: Get the list of the ecommerce sections.
+      parameters:
+        - name: pet
+          in: query
+          description: pet id
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Section'          
+        '400':
+          description: Generic client error.
+  /products:
+    get:
+      tags:
+        - ecommerce
+      summary: Get the list of the ecommerce products.
+      parameters:
+        - name: section
+          in: query
+          description: section id
+          required: false
+          schema:
+            type: string
+        - name: id
+          in: query
+          description: product id
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'          
+        '400':
+          description: Generic client error.
+  /products/new:
+    post:
+      tags:
+        - ecommerce
+      summary: Create a new ecommerce product.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/newOrModifyProduct'
+      responses:
+        '200':
+          description: Successful operation.
+        '400':
+          description: Generic client error.
+  /products/{id}/modify:
+    post:
+      tags:
+        - ecommerce
+      summary: Modify an ecommerce product.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: id of the product that you want modify
+          schema:
+            type: string
+      requestBody:
+        description: Not all the fields are required, you can send only the fields that you want modify
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/newOrModifyProduct'
+      responses:
+        '200':
+          description: Successful operation.
+        '400':
+          description: Generic client error.
+  /products/{id}:
+    delete:
+      tags:
+        - ecommerce
+      summary: Delete an ecommerce product.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: id of the product that you want delete
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation.
+        '400':
+          description: Generic client error.
+  /locations:
+    get:
+      tags:
+        - in-store services
+      summary: Get the list of the physical store.
+      responses:
+        '200':
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Location'          
+        '400':
+          description: Generic client error.
+  /services:
+    get:
+      tags:
+        - in-store services
+      summary: Get the list of the types of services that can be provided in a physical store.
+      parameters:
+        - name: pet
+          in: query
+          description: pet id, get only the types of services for the specified pet
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation.
+          content:
+            application/json:  
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Service'          
+        '400':
+          description: Generic client error.
+  /bookable_services:
+    get:
+      tags:
+        - in-store services
+      summary: Get the list of the services that can be booked.
+      description: The bookable service are returned sorted by this sequence of key with descending priority [ pet.name, location.city, location.address, service.name, service.date, price ].
+      parameters:
+        - name: pet
+          in: query
+          description: pet id
+          required: false
+          schema:
+            type: string
+        - name: location
+          in: query
+          description: location id
+          required: false
+          schema:
+            type: string
+        - name: service
+          in: query
+          description: service id
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BookableService'          
+        '400':
+          description: Generic client error.
+  /bookable_services/new:
+    post:
+      tags:
+        - in-store services
+      summary: Create a new bookable service.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/newOrModifyBookableService'
+      responses:
+        '200':
+          description: Successful operation.
+        '400':
+          description: Generic client error.
+  /bookable_services/{id}/modify:
+    post:
+      tags:
+        - in-store services
+      summary: Modify a bookable service.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: id of the bookable service that you want modify
+          schema:
+            type: string
+      requestBody:
+        description: Not all the fields are required, you can send only the fields that you want modify
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/newOrModifyBookableService'
+      responses:
+        '200':
+          description: Successful operation.
+        '400':
+          description: Generic client error.
+  /bookable_services/{id}:
+    delete:
+      tags:
+        - in-store services
+      summary: Delete a bookable service.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: id of the bookable service that you want delete
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation.
+        '400':
+          description: Generic client error.
+  /users:
+    get:
+      tags:
+        - user
+      summary: Get the list of all users.
+      parameters:
+        - name: id
+          in: query
+          description: user id
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'          
+        '400':
+          description: Generic client error.
+  /users/{id}/modify:
+    post:
+      tags:
+        - user
+      summary: Modify username or email.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: user id
+          schema:
+            type: string
+      requestBody:
+        description: Not all the fields are required, you can send only the fields that you want modify
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/newOrModifyUser'
+      responses:
+        '200':
+          description: Successful operation.
+        '400':
+          description: Generic client error.
+  /users/{id}:
+    delete:
+      tags:
+        - user
+      summary: Delete an user account.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: id of the user account that you want delete
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation.
+        '400':
+          description: Generic client error.
+  /auth/register:
+    post:
+      tags:
+        - user
+      summary: Register a new user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/registerUser'
+      responses:
+        '200':
+          description: Registration successuful if and only if success field is true, success field is false when the request is corrent but there is an error like password too short, name already exist, ...
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  token:
+                    type: string
+        '400':
+          description: Generic client error.
+  /auth/login:
+    post:
+      tags:
+        - user
+      summary: User login.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/loginUser'
+      responses:
+        '200':
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  token:
+                    type: string
+        '400':
+          description: Generic client error.
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 637a0a01facc3ab186d08b2b
+        name:
+          type: string
+          example: Cani
+    Section:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 637a0a01facc3ab186d08b37
+        pet:
+          type: string
+          example: 637a0a01facc3ab186d08b2b
+        name:
+          type: string
+          example: Prodotti alimentari
+        img:
+          type: string
+          example: http://site212225.tw.cs.unibo.it/backoffice/img/dog-food.png
+        alt:
+          type: string
+          example: ciotola di croccantini per cani
+        description:
+          type: string
+          example: Alimenti secchi e umidi, snack e biscotti per una dieta salutare
+    Product:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 637a0a01facc3ab186d08b3d
+        pet:
+          type: object
+          $ref: '#/components/schemas/Pet'
+        section:
+          type: object
+          $ref: '#/components/schemas/Section'
+        title:
+          type: string
+          example: Croccantini
+        price:
+          type: string
+          example: 10.50
+        description:
+          type: string
+          example: croccantini buoni
+        image:
+          type: integer
+          example: http://site212225.tw.cs.unibo.it/productImg
+        alt:
+          type: string
+          example: testo sostitutivo all'immagine
+        pieces_left:
+          type: integer
+          example: 20
+    newOrModifyProduct:
+      type: object
+      properties:
+        pet:
+          type: string
+          example: 637a0a01facc3ab186d08b2b
+        section:
+          type: string
+          example: 637a0a01facc3ab186d08b37
+        title:
+          type: string
+          example: Croccantini
+        price:
+          type: string
+          example: 10.50
+        description:
+          type: string
+          example: croccantini buoni
+        image:
+          type: integer
+          example: http://site212225.tw.cs.unibo.it/productImg
+        alt:
+          type: string
+          example: testo sostitutivo all'immagine
+        pieces_left:
+          type: integer
+          example: 20
+    Location:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 637a0a01facc3ab186d08b45
+        city:
+          type: string
+          example: Bologna
+        address:
+          type: string
+          example: via indipendenza 5
+    Service:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 637a318c51e9f4bc1ad0a27c
+        pet:
+          type: string
+          example: 637a318b51e9f4bc1ad0a25a
+        name:
+          type: string
+          example: Toilettatura
+        description:
+          type: string
+          example: Rimozione del pelo in eccesso
+    BookableService:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 637a318c51e9f4bc1ad0a284
+        pet:
+          type: object
+          $ref: '#/components/schemas/Pet'
+        location:
+          type: object
+          $ref: '#/components/schemas/Location'
+        service:
+          type: object
+          $ref: '#/components/schemas/Service'
+        price:
+          type: string
+          example: 13.20
+        day:
+          type: string
+          example: 2022-11-20T10:30:00.000Z
+        reservation_left:
+          type: integer
+          example: 1
+        pet_size: 
+          type: string
+          enum: [grande, media, piccola]
+          example: grande
+    newOrModifyBookableService:
+      type: object
+      properties:
+        pet:
+          type: string
+          example: 637a0a01facc3ab186d08b2b
+        location:
+          type: string
+          example: 637a0a01facc3ab186d08b45
+        service:
+          type: string
+          example: 637a318c51e9f4bc1ad0a27c
+        price:
+          type: string
+          example: 13.20
+        day:
+          type: string
+          example: 2022-11-20T10:30:00.000Z
+        reservation_left:
+          type: integer
+          example: 1
+        pet_size: 
+          type: string
+          enum: [grande, media, piccola]
+          example: grande
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 637a3ae20a8749334d70b8a9
+        username:
+          type: string
+          example: Marko Arnautovic
+        email:
+          type: string
+          example: marco.arnautovic@unibo.it
+    newOrModifyUser:
+      type: object
+      properties:
+        username:
+          type: string
+          example: Marko Arnautovic
+        email:
+          type: string
+          example: marco.arnautovic@unibo.it
+    registerUser:
+      type: object
+      properties:
+        username:
+          type: string
+          example: Marko Arnautovic
+        email:
+          type: string
+          example: marco.arnautovic@unibo.it
+    loginUser:
+      type: object
+      properties:
+        email:
+          type: string
+          example: marco.arnautovic@unibo.it
+        password:
+          type: object
+          example: 123456
