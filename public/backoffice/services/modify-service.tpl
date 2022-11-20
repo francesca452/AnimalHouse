@@ -115,7 +115,7 @@
 						<div class="collapse navbar-collapse" id="navbarNav">
 							<ul class="navbar-nav">
 								<li class="nav-item">
-									<a class="nav-link" href="#">Gestione utenti</a>
+									<a class="nav-link" href="backoffice/users/">Gestione utenti</a>
 								</li>
 								<li class="nav-item">
 									<a class="nav-link" href="backoffice/ecommerce/">Ecommerce</a>

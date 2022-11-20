@@ -1,0 +1,71 @@
+Questa directory contine dei file json che contengono i record per populare il database
+con dei record di default.
+
+NOTA: 
+Alcuni record contengono dei riferimenti ad altri record tramite l'id.
+Gli id vengono generati da mongo all'inserimento di un record nel database.
+Per questo motivo se un record contine un riferimento ad un altro recordo tramite un id
+è impossibile conoscre il valore di questo id a priori e quindi è impossibile 
+scriverlo nel file json.
+
+esempio [1] (preso da sections.json): 
+
+{
+	"pet": "Cani",
+	"name": "Prodotti alimentari",
+	"img": "http://site212225.tw.cs.unibo.it/backoffice/img/dog-food.png",
+	"alt": "alt",
+	"description": "Alimenti secchi e umidi, snack e biscotti per una dieta salutare"
+}
+
+"pet" dovrebbe essere un id di un record di un animale (di un cane nell'esempio)
+ma non possiamo conoscere questo id a priori.
+
+SOLUZIONE:
+Guardando gli schemi di ogni tabella nel database (AnimalHouse/models/*.js),
+per ogni schema esistono uno o più attributi unici, utilizziamo il valore di questi attributi
+per riferirci al record nella tabella che ci interessa.
+Al momento dell'inserimento nel database il valore di questi attributi verrà sostituito con 
+l'id corretto (vedi dbRefill.js).
+
+
+esempio [2] (preso da pet.js):
+
+{ 
+		"name": "Cani"
+}
+
+Il valore dell'attributo "name" è unico, 
+viene inserito nel database prima il record dell'esempio [2],
+viene memorizzata in un dizionario la coppia ("Cani", id) 
+e al momento dell' inserimeto del record dell'esempio [1] si sostituisce nel campo "pet"
+l'id corretto.
+
+NOTA:
+In alcuni schemi servono almeno 2 attributi per riconoscere in modo univoco un record,
+Ad esempio AnimalHouse/models/location.js.
+In questo caso se vogliamo riferirci ad un record della tabella location bisogna utilizzare la
+seguente sintassi nel file json: valore dell'attributo 1, trattino -, valore dell'attributo 2
+(vedi esempio [3]).
+
+esempio [3]:
+
+(preso da bookable_services.js)
+{
+	"pet": "cani",
+	"location": "bologna-via indipendenza 5", <= QUI
+	"service": "toilettatura-cani" ,
+	"day": "2022-11-20t10:30:00z",
+	"price": 13.20,
+	"reservation_left": 1,
+	"pet_size": "grande"
+}
+
+(preso da locations.js)
+{
+{ 
+	"city": "Bologna",
+	"address": "via indipendenza 5"
+}
+
+

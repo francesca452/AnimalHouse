@@ -7,54 +7,6 @@ const path    = require('path')
 const {getProductById} = require('../controllers/productController')
 
 
-//VECCHIA VERSIONE GET PRODOTTI, vedi versione non commentata.
-/* GET /products?pet=${...}
- * Ritorna tutti i prodotti divisi per sezione per l'animale indicato nel parametro di query
- * output:
-
- 	[
-		{
-			section: ...,
-			products: [ {...}, {...}, ... ]
-		}, 
-		
-		...
-		
-	]
-
-	Ogni prodotto è un json identico allo schema Product.
-*/
-
-/*
-router.get('/', async (req, res) => {
-
-    try {
-		if (!('pet' in req.query)) throw new Error('Missing pet query parameter');
-        const p = await Product.find({ 'pet': req.query.pet }).lean();
-
-		let sections_dict = {};
-		let sections_list = [];
-		for (let i = 0; i < p.length; i++) {
-
-			let s = p[i].section; 
-			if (!(s in sections_dict)) {
-				sections_dict[s] = sections_list.length;
-				sections_list.push({'section': s, 'products': []});
-			}
-
-			sections_list[sections_dict[s]].products.push(p[i]);
-
-		}
-
-
-		res.status(200).json(sections_list);
-    }
-	catch (err) {
-        res.status(500).json({message: err.message});
-    }    
-})
-*/
-
 
 router.get('/', async (req, res) => {
 	
@@ -87,11 +39,11 @@ router.post('/new', async (req, res) =>{
     	const p = new Product(req.body);
 
         await p.save();
-        res.status(200).end();                   // 201 OK creazione oggetto
+        res.status(200).end();
 
     } catch(err) {
 
-        res.status(404).json({message: err.message})        //400 Errore nell'input dell'utente
+        res.status(404).json({message: err.message});
     }
 })
 
