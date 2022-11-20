@@ -8,9 +8,10 @@ const locationSchema = new mongoose.Schema({
     'address': {
         type: String,
         required: true,
-		unique: true
     }
 })
+
+serviceSchema.index({ city: 1, address: 1 }, { unique: true });
 
 module.exports = mongoose.model('location', locationSchema)
 
