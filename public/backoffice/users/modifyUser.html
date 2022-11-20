@@ -20,6 +20,8 @@
 					'email': email
 				};
 
+				console.log(userData);
+
 				$.post(`http://site212225.tw.cs.unibo.it/users/${userId}/modify`, userData)
 				.then((res) => {
 					alert('Dati dell\'utente modificati con successo');
@@ -103,13 +105,13 @@
 						<div class="collapse navbar-collapse" id="navbarNav">
 							<ul class="navbar-nav">
 								<li class="nav-item">
-									<a class="nav-link" href="#">Gestione utenti</a>
+									<a class="nav-link" href="backoffice/users/">Gestione utenti</a>
 								</li>
 								<li class="nav-item">
 									<a class="nav-link" href="backoffice/ecommerce">Ecommerce</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" href="backoffice/services.html">Serivizi in negozio</a>
+									<a class="nav-link" href="backoffice/services/">Serivizi in negozio</a>
 								</li>
 								<li class="nav-item">
 									<a class="nav-link" href="#">Servizi di comunità</a>
