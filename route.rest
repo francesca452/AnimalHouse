@@ -1,0 +1,88 @@
+GET http://localhost:8000/products
+
+###
+
+GET http://localhost:8000/products/633bf04bd17b8091d5fe6d52
+
+
+###
+
+POST http://localhost:8000/products
+Content-Type: application/json
+
+{
+    "title": "prova",
+    "description": "blablabla",
+    "pieces_left": 1,
+    "price": 83,
+    "image": "https://shop-cdn-m.mediazs.com/bilder/gourmet/gold/pacco/misto/x/g/3/400/icons_saverpacks_pyramids_0x00g_template_1000x1000_int_1_2022_06_13t125226_789_3.jpg"
+}
+
+
+###
+
+DELETE http://localhost:8000/products/633bf023d17b8091d5fe6d50
+
+###
+
+PATCH http://localhost:8000/products/633bf023d17b8091d5fe6d50
+Content-Type: application/json
+
+{
+    "brand": "New Brand"
+}
+
+###
+
+POST http://localhost:8000/auth/forgotpassword
+
+###
+
+POST http://localhost:8000/auth/register
+Content-Type: application/json
+
+{
+    "username": "Test 4",
+    "email": "cosimo.coppolaro@virgilio.it",
+    "password": "9999999"
+}
+
+###
+
+POST http://localhost:8000/auth/login
+Content-Type: application/json
+
+{
+    "email": "cosimo.coppolaro@virgilio.it",
+    "password": "9999999"
+}
+
+###
+
+GET http://localhost:8000/private
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNWQ3ZWEyODNiZTM0YzRhNzkwY2JhZSIsImlhdCI6MTY2NzIzNTkyOSwiZXhwIjoxNjY3MjM2NTI5fQ.g8fQI8w4abPbtNkZAeW8vIIxdaknwF4pTquQSZA9lFQ
+
+###
+
+POST http://localhost:8000/auth/forgotpassword
+Content-Type: application/json
+
+{
+    "email": "cosimo.coppolaro@studio.unibo.it"
+}
+
+###
+
+PUT http://localhost:8000/auth/resetpassword/1b878706bbd296baeca834e6c4cad9c323eda114 
+Content-Type: application/json
+
+{
+    "password":"123457"
+}
+
+
+
+
+
+

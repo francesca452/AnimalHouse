@@ -4,6 +4,8 @@ const Product = require('../models/product')
 const Section = require('../models/section')
 const Pet     = require('../models/pet')
 const path    = require('path')
+const {getProductById} = require('../controllers/productController')
+
 
 //VECCHIA VERSIONE GET PRODOTTI, vedi versione non commentata.
 /* GET /products?pet=${...}
@@ -133,6 +135,8 @@ router.delete('/:id', async (req, res) => {
         res.status(400).json({message: err.message})
     }
 })
+
+router.get("/front/:id", getProductById)
 
 
 

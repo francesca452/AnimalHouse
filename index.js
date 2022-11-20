@@ -18,6 +18,7 @@ global.rootDir = __dirname
 
 app.use(express.static(path.join(global.rootDir, 'public')))
 app.use(express.urlencoded({ extended: true}))
+app.use(express.json())
 app.use(cors())
 
 
@@ -34,7 +35,7 @@ app.use('/backoffice/ecommerce', require('./tpl-script/backoffice-ecommerce'))
 
 
 app.use('/auth', require('./routes/auth'))
-/* app.use('/private', require('./routes/private')) */
+app.use('/private', require('./routes/private')) 
 
 app.use(errorHandler)
 
