@@ -10,41 +10,72 @@
 		<script src="jquery-3.6.0.js"></script>
 		<script>
 
-			function createNewUser()
+			function modifyUser(userId)
 			{
 				const username = $('#username').val();
 				const email = $('#email').val();
-				const password = $('#password').val();
 
 				const userData = {
 					'username': username,
-					'email': email,
-					'password': password
+					'email': email
 				};
 
-				console.log(userData);
-
-				$.post(`http://site212225.tw.cs.unibo.it/auth/register`, userData)
+				$.post(`http://site212225.tw.cs.unibo.it/users/${userId}`, userData)
 				.then((res) => {
-					
-					alert('Utente registrato con successo');
+					alert('Dati dell\'utente modificati con successo');
 				})
 				.catch((err) => {
-					alert('Registrazione utente fallita');
+					alert('Modifica dati dell\'utente fallita');
 				});
 
 			}
 
+			function initForm(user)
+			{
+				$('#username').val(user.username);
+				$('#email').val(user.email);
+			}
+
+			function userIdErorr(userId)
+			{
+				let innerHTML = `
+				<h3 class="fw-bold text-secondary text-center">Nessun risultato...</h3>
+				<p class="text-secondary text-center">
+					Non esiste nessun utente registrato con id: ${userId}.
+				</p>`;
+
+				$('#userId-error').html(innerHTML);
+			}
+
+			let userId = getUrlParameter('id');
 			$(document).ready(() => {
 
+				$.getJSON(`http://site212225.tw.cs.unibo.it/users?id=${userId}`,
+					function (users) {
+						if (users.length > 0) initForm(users[0]);
+						else userIdError();
+					});
+				
 				$('#user-form').submit((event) => {
-					createNewUser();
+					modifyUser(userId);
 					return false;
 				});
 
 			});
 				
-			
+			function getUrlParameter(sParam)
+			{
+    			let sPageURL = window.location.search.substring(1);
+        		let sURLVariables = sPageURL.split('&');
+
+    			for (let i = 0; i < sURLVariables.length; i++) {
+        			let sParameterName = sURLVariables[i].split('=');
+
+        			if (sParameterName[0] === sParam) {
+						return sParameterName[1];
+        			}
+    			}
+			}
 		</script>
 	</head>
 
@@ -93,30 +124,26 @@
 		</header>
 
 		<main class="my-5">
-			<div class="container">
+			<div id="userId-erorr" class="container">
 
-				<h2>Registra un nuovo utente</h2>
+				<h2>Modifica dati dell'utente</h2>
 				<form id="user-form" autocomplete="off" class="border border-success p-3" style="border-radius: 25px;">
 					<div class="row g-2 g-md-3">
 
 						<div class="col-12">
 							<label class="form-label" for="username">Username:</label>
-							<input type="text" id="username" class="form-control" required>
+							<input type="text" id="username" class="form-control">
 						</div>
 
 						<div class="col-md-12">
 							<label class="form-label" for="email">Email:</label>
-							<input type="email" id="email" class="form-control" required>
+							<input type="email" id="email" class="form-control">
 						</div>
 
-						<div class="col-md-12">
-							<label class="form-label" for="pieces-left">Password</label>
-							<input type="password" id="password" minlength="6" class="form-control" required>
-						</div>
 					</div>
 
 					<div class="col-md-12 mt-3 d-flex justify-content-end">
-						<button type="submit" class="btn btn-success">Registra</button>
+						<button type="submit" class="btn btn-success">Modifica</button>
 					</div>
 				</form>
 			</div>

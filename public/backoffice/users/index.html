@@ -56,7 +56,7 @@
 									<span class="fw-bold">Id:</span> ${users[i]._id} 
 								</div>
 								<div>
-									<a role="button" href="backoffice/users/modifyUser.html" class="btn p-0" aria-label="Modifica utente corrente">
+									<a role="button" href="backoffice/users/modifyUser.html?id=${users[i]._id}" class="btn p-0" aria-label="Modifica utente corrente">
 										<img src="backoffice/img/icons8-edit-32.png" height="16" alt="">
 									</a>
 									<button type="button" onclick="deleteUser('${users[i]._id}')" class="btn p-0" aria-label="Elimina utente corrente">
