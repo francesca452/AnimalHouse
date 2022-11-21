@@ -10,6 +10,7 @@ const Section  = require('./models/section')
 const Bookable = require('./models/bookable_service')
 const cors     = require('cors')
 const path     = require('path')
+const bodyParser = require('body-parser');
 
 const errorHandler = require('./middleware/error')
 
@@ -18,6 +19,8 @@ global.rootDir = __dirname
 
 app.use(express.static(path.join(global.rootDir, 'public')))
 app.use(express.urlencoded({ extended: true}))
+app.use(bodyParser.json({ limit: "30mb", extended: true }));
+app.use(express.json())
 app.use(cors())
 
 
@@ -34,8 +37,10 @@ app.use('/backoffice/ecommerce', require('./tpl-script/backoffice-ecommerce'))
 
 
 app.use('/auth', require('./routes/auth'))
-/* app.use('/private', require('./routes/private')) */
-
+app.use('/private', require('./routes/private')) 
+app.use('/images', express.static('images'));
+app.use('/posts', require('./routes/PostRoute.js'))
+app.use('/upload', require('./routes/UploadRoute.js'))
 app.use(errorHandler)
 
 
