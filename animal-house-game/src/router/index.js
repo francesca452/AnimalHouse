@@ -24,6 +24,16 @@ const routes = [
     path: '/prove',
     name: 'prove',
     component: () => import(/* webpackChunkName: "prove" */ '../views/ProveView.vue')
+  },
+  {
+    path: '/mobile',
+    name: 'mobile',
+    component: () => import(/* webpackChunkName: "mobile" */ '../views/mobileView.vue')
+  },
+  {
+    path: '/product',
+    name: 'product',
+    component: () => import(/* webpackChunkName: "product" */ '../views/ProductView.vue')
   }
 ]
 

@@ -1,26 +1,26 @@
 <template>
-  <section class="page-section" id="services">
+  <section id="services">
     <b-container>
-      <div class="text-center">
-        <h2 class="section-heading" style="text-transform: uppercase;"><strong>Services</strong></h2>
-        <h5 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h5>
+      <div>
+        <h2 class="section-heading">LE NOSTRE PAROLE CHIAVE</h2>
+        <h5 class="section-subheading">Lorem ipsum dolor sit amet consectetur.</h5>
       </div>
-      <br>
-      <b-row class="text-center">
-        <b-col class="col-md-4">
+      <b-row class="row-cols-2 row-cols-md-4 justify-content-center" no-gutters>
+        <b-col>
           <b-icon icon="bag" font-scale="6" class="rounded-circle bg-info p-4" variant="light"></b-icon>
-          <h4 class="my-3">E-Commerce</h4>
-          <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
+          <h4 class="my-3">Affidabilità</h4>
         </b-col>
-        <b-col class="col-md-4">
-          <b-icon icon="bag" font-scale="6" class="rounded-circle bg-success p-4" variant="light"></b-icon>
-          <h4 class="my-3">E-Commerce</h4>
-          <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
+        <b-col>
+          <b-icon icon="bag" font-scale="6" class="rounded-circle bg-info p-4" variant="light"></b-icon>
+          <h4 class="my-3">Competenza</h4>
         </b-col>
-        <b-col class="col-md-4">
-          <b-icon icon="bag" font-scale="6" class="rounded-circle bg-warning p-4" variant="light"></b-icon>
-          <h4 class="my-3">E-Commerce</h4>
-          <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
+        <b-col>
+          <b-icon icon="bag" font-scale="6" class="rounded-circle bg-info p-4" variant="light"></b-icon>
+          <h4 class="my-3">Comunicazione</h4>
+        </b-col>
+        <b-col>
+          <b-icon icon="bag" font-scale="6" class="rounded-circle bg-info p-4" variant="light"></b-icon>
+          <h4 class="my-3">Capire il cliente(Attenzione)</h4>
         </b-col>
       </b-row>
     </b-container>

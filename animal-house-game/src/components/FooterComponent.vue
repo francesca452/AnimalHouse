@@ -31,6 +31,7 @@ footer {
     padding-top: 1rem;
     padding-bottom: 1rem; 
     text-align: center;
+    width: 100%;
 }
 footer #information {
     font-size: 13px;

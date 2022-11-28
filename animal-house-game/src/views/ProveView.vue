@@ -1,14 +1,62 @@
 <template>
-  <b-container>
-    <section>
-    <br><br><br><br><br><br><br>
-      <div v-for="pet in pets" :key="pet">
-        <p>animal name: {{ pet.name }}</p>
-        <p>animal id: {{ pet._id }}</p>
-      </div>
-    </section>
-    <b-button href="#" @click="mounted" variant="primary">Contact</b-button>
-  </b-container>
+    <b-container>
+        <div style="padding-top: 75px;">
+            <b-carousel
+                id="carousel"
+                fade
+                v-model="slide"
+                :interval="5500"
+                indicators
+                img-width="2500"
+                img-height="480"
+                style="text-shadow: 1px 1px 2px #333;"
+            >
+                <b-carousel-slide
+                    v-for="carousel in carousels" :key="carousel"
+                    :caption="carousel.caption"
+                    :img-src="carousel.url"
+                ></b-carousel-slide>
+            </b-carousel>
+            <div>
+                <p class="mt-4" style="height: 100px; padding-top: 10px;  padding-bottom: 10px;" v-if="slide == 0">{{ comments[0] }}</p>            
+                <p class="mt-4" style="height: 100px; padding-top: 10px;  padding-bottom: 10px;" v-if="slide == 1">{{ comments[1] }}</p>            
+                <p class="mt-4" style="height: 100px; padding-top: 10px;  padding-bottom: 10px;" v-if="slide == 2">{{ comments[2] }}</p>            
+                <p class="mt-4" style="height: 100px; padding-top: 10px;  padding-bottom: 10px;" v-if="slide == 3">{{ comments[3] }}</p>            
+            </div>
+        </div>
+        <br>
+        <div>   
+            <section class="page-section">
+                <b-container style="width: 100%;">
+                    <div class="text-center">
+                        <h2 class="section-heading" style="text-transform: uppercase;"><strong>Animali disponibili</strong></h2>
+                        <h5 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h5>
+                    </div>
+                    <br>
+                    <b-row>
+                        <b-col class="col-xl-6 col-sm-6 mb-4" v-for="pet in pets" :key="pet">
+                            <!--Portfolio item-->
+                            <div class="portfolio-item">
+                                <figure class="nomeClasse" data-effect="fade-in">
+                                    <img src="../assets/contatti.jpg" style="width: 100%; height: 100%;">
+                                    <figcaption>
+                                        <h2>cover fade</h2>
+                                    </figcaption>
+                                </figure>
+                            </div>
+                        </b-col>
+                    </b-row>
+                </b-container>
+            </section>
+        </div>
+        <section>
+            <div v-for="section in sections" :key="section">
+                <p>section name: {{ section.name }}</p>
+                <p>section description: {{ section.description }}</p>
+                <b-img fluid :src="section.img"></b-img>
+            </div>
+        </section>
+    </b-container>
 </template>
 
 <script>
@@ -17,15 +65,42 @@ import axios from 'axios'
 export default {
     data () {
         return  {
-            pets: []
+            pets: [],
+            id_pets: [],
+            sections: [],
+            slide: 0,
+            carousels: [
+                {caption: 'accessori', url: 'https://picsum.photos/1024/480/?image=52'},
+                {caption: 'marche di abbigliamento e slogan', url: 'https://picsum.photos/1024/480/?image=52'},
+                {caption: 'intrattenimento', url: 'https://picsum.photos/1024/480/?image=52'},
+                {caption: 'documentazione/libri', url: 'https://picsum.photos/1024/480/?image=52'}
+            ],
+            comments: [
+                'commento sui tipi di accessori offerti, puoi vedere la sezione dell"e-commerce dedicata (stessa cosa per gli altri punti)',
+                'commento sull"alimentazione, magari rimando a zona gioco feed, curiosità e ricette',
+                'commento sui gioci per il cane e intrattenimento per l"animale',
+                'libri e documentazione per conoscere il cane, nella cuipagina is può rimandare alla sezione addestramento/cura offerte. importanza di conoscere i propri animali'
+            ]
         }
     },
     methods: {
-        mounted () {
+        requestName () {
             axios
             .get("https://site212225.tw.cs.unibo.it/pets")
-            .then(response => (this.pets = response.data))
+            .then(response => {
+                (this.pets = response.data),
+                (this.id_pets = this.pets._id)
+            })
+        },
+        requestSection () {
+            axios
+            .get("https://site212225.tw.cs.unibo.it/sections")
+            .then(response => (this.sections = response.data))
         }
+    },
+    created: function () {
+        this.requestName();
+        this.requestSection();
     }
 }
 </script>
@@ -502,4 +577,126 @@ export default {
 
 </style>
 
+-->
+
+<!--
+<b-aspect id="griglia" :aspect="dim" style="border: 1px solid black;">
+      <p>qui griglia di immagini per servizi</p>
+      <b-aspect :aspect="dim" style="border: 1px solid black;">
+        <b-row>
+          <b-col>
+            <figure class="nomeClasse" data-effect="fade-in">
+              <img src="../assets/contatti.jpg" style="width: 100%; height: 100%;">
+              <figcaption>
+                <h2>cover fade</h2>
+              </figcaption>
+            </figure>
+          </b-col>
+          <b-col>
+            <figure class="nomeClasse" data-effect="fade-in">
+              <img src="../assets/curiosita.jpg" style="width: 100%; height: 100%;">
+              <figcaption>
+                <h2>cover fade</h2>
+              </figcaption>
+            </figure>
+          </b-col>
+          <b-col>
+            <figure class="nomeClasse" data-effect="fade-in">
+              <img src="../assets/toilettatura.jpg" style="width: 100%; height: 100%;">
+              <figcaption>
+                <h2>cover fade</h2>
+              </figcaption>
+            </figure>
+          </b-col>
+        </b-row>
+      </b-aspect>
+      <hr>
+      <b-aspect :aspect="dim" style="border: 1px solid black;">
+        <b-row>
+          <b-col>
+            <figure class="nomeClasse" data-effect="fade-in">
+              <img src="../assets/sedi.jpg" style="width: 100%; height: 100%;">
+              <figcaption>
+                <h2>cover fade</h2>
+              </figcaption>
+            </figure> 
+          </b-col>
+          <b-col>
+            <figure class="nomeClasse" data-effect="fade-in">
+              <img src="../assets/commenti.jpg" style="width: 100%; height: 100%;">
+              <figcaption>
+                <h2>cover fade</h2>
+              </figcaption>
+            </figure>
+          </b-col>
+          <b-col>
+            <figure class="nomeClasse" data-effect="fade-in">
+              <img src="../assets/shop.jpg" style="width: 100%; height: 100%;">
+              <figcaption>
+                <h2>cover fade</h2>
+              </figcaption>
+            </figure>
+          </b-col>
+        </b-row>
+      </b-aspect>
+      <hr>
+      <b-aspect :aspect="dim" style="border: 1px solid black;">
+        <b-row>
+          <b-col>
+            <figure class="nomeClasse" data-effect="fade-in">
+              <img src="../assets/game.jpg" style="width: 100%; height: 100%;">
+              <figcaption>
+                <h2>cover fade</h2>
+              </figcaption>
+            </figure>
+          </b-col>
+          <b-col>
+            <figure class="nomeClasse" data-effect="fade-in">
+              <img src="../assets/about.jpg" style="width: 100%; height: 100%;">
+              <figcaption>
+                <h2>cover fade</h2>
+              </figcaption>
+            </figure>
+          </b-col>
+          <b-col>
+            <figure class="nomeClasse" data-effect="fade-in">
+              <img src="../assets/cibo.jpg" style="width: 100%; height: 100%;">
+              <figcaption>
+                <h2>cover fade</h2>
+              </figcaption>
+            </figure>
+          </b-col>
+        </b-row>
+      </b-aspect>
+      <hr>
+      <b-aspect :aspect="dim" style="border: 1px solid black;">
+        <b-row>
+          <b-col>
+            <figure class="nomeClasse" data-effect="fade-in">
+              <img src="../assets/eventi.jpg" style="width: 100%; height: 100%;">
+              <figcaption>
+                <h2>cover fade</h2>
+              </figcaption>
+            </figure>
+          </b-col>
+          <b-col>
+            <figure class="nomeClasse" data-effect="fade-in">
+              <img src="../assets/recensioni.jpg" style="width: 100%; height: 100%;">
+              <figcaption>
+                <h2>cover fade</h2>
+              </figcaption>
+            </figure>
+          </b-col>
+          <b-col>
+            <figure class="nomeClasse" data-effect="fade-in">
+              <img src="../assets/collabora.jpg" style="width: 100%; height: 100%;">
+              <figcaption>
+                <h2>cover fade</h2>
+              </figcaption>
+            </figure>
+          </b-col>
+        </b-row>
+      </b-aspect>
+      <p>fine delle immagini</p>
+    </b-aspect>
 -->

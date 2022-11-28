@@ -1,199 +1,196 @@
 <template>
-	<section class="section-products">
-		<b-container style="border: 1px solid black;">
-			<b-row class="justify-content-center text-center">
-				<b-col class="col-md-8 col-lg-6">
-					<div class="header">
-						<h3>Featured Product</h3>
-						<h2>Popular Products</h2>
-					</div>
-				</b-col>
-			</b-row>
-			<b-row>
-				<div class="col-md-6 col-lg-4 col-xl-3">
-					<div id="product-1" class="single-product" style="background: url('https://startbootstrap.github.io/startbootstrap-agency/assets/img/portfolio/2.jpg')">
-						<div class="part-1">
-							<ul>
-								<li><a href="#"><b-icon-cart-check-fill></b-icon-cart-check-fill></a></li>
-								<li><a href="#"><b-icon-plus-lg></b-icon-plus-lg></a></li>
-								<li><a href="#"><b-icon-arrows-angle-expand></b-icon-arrows-angle-expand></a></li>
-							</ul>
-						</div>
-						<div class="part-2">
-							<h3 class="product-title">{{item.product_title}}</h3>
-							<h4 class="product-price">${{item.product_price}}</h4>
-						</div>
-					</div>
-				</div>
-			</b-row>
-			<!--
-			<div class="row">
-				Single Product
-				<div class="col-md-6 col-lg-4 col-xl-3">
-					<div id="product-1" class="single-product">
-						<div class="part-1">
-							<ul>
-								<li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
-								<li><a href="#"><i class="fas fa-heart"></i></a></li>
-								<li><a href="#"><i class="fas fa-plus"></i></a></li>
-								<li><a href="#"><i class="fas fa-expand"></i></a></li>
-							</ul>
-						</div>
-						<div class="part-2">
-							<h3 class="product-title">Here Product Title</h3>
-							<h4 class="product-old-price">$79.99</h4>
-							<h4 class="product-price">$49.99</h4>
-						</div>
-					</div>
-				</div>
-				Single Product 
-				<div class="col-md-6 col-lg-4 col-xl-3">
-					<div id="product-2" class="single-product">
-						<div class="part-1">
-							<span class="discount">15% off</span>
-							<ul>
-								<li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
-								<li><a href="#"><i class="fas fa-heart"></i></a></li>
-								<li><a href="#"><i class="fas fa-plus"></i></a></li>
-								<li><a href="#"><i class="fas fa-expand"></i></a></li>
-							</ul>
-						</div>
-						<div class="part-2">
-							<h3 class="product-title">Here Product Title</h3>
-							<h4 class="product-price">$49.99</h4>
-						</div>
-					</div>
-				</div>
-				Single Product 
-				<div class="col-md-6 col-lg-4 col-xl-3">
-					<div id="product-3" class="single-product">
-						<div class="part-1">
-							<ul>
-								<li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
-								<li><a href="#"><i class="fas fa-heart"></i></a></li>
-								<li><a href="#"><i class="fas fa-plus"></i></a></li>
-								<li><a href="#"><i class="fas fa-expand"></i></a></li>
-							</ul>
-						</div>
-						<div class="part-2">
-							<h3 class="product-title">Here Product Title</h3>
-							<h4 class="product-old-price">$79.99</h4>
-							<h4 class="product-price">$49.99</h4>
-						</div>
-					</div>
-				</div>
-				Single Product 
-				<div class="col-md-6 col-lg-4 col-xl-3">
-					<div id="product-4" class="single-product">
-						<div class="part-1">
-							<span class="new">new</span>
-							<ul>
-								<li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
-								<li><a href="#"><i class="fas fa-heart"></i></a></li>
-								<li><a href="#"><i class="fas fa-plus"></i></a></li>
-								<li><a href="#"><i class="fas fa-expand"></i></a></li>
-							</ul>
-						</div>
-						<div class="part-2">
-							<h3 class="product-title">Here Product Title</h3>
-							<h4 class="product-price">$49.99</h4>
-						</div>
-					</div>
-				</div>
-				Single Product 
-				<div class="col-md-6 col-lg-4 col-xl-3">
-					<div id="product-1" class="single-product">
-						<div class="part-1">
-							<ul>
-								<li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
-								<li><a href="#"><i class="fas fa-heart"></i></a></li>
-								<li><a href="#"><i class="fas fa-plus"></i></a></li>
-								<li><a href="#"><i class="fas fa-expand"></i></a></li>
-							</ul>
-						</div>
-						<div class="part-2">
-							<h3 class="product-title">Here Product Title</h3>
-							<h4 class="product-old-price">$79.99</h4>
-							<h4 class="product-price">$49.99</h4>
-						</div>
-					</div>
-				</div>
-				Single Product 
-				<div class="col-md-6 col-lg-4 col-xl-3">
-					<div id="product-2" class="single-product">
-						<div class="part-1">
-							<span class="discount">15% off</span>
-							<ul>
-								<li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
-								<li><a href="#"><i class="fas fa-heart"></i></a></li>
-								<li><a href="#"><i class="fas fa-plus"></i></a></li>
-								<li><a href="#"><i class="fas fa-expand"></i></a></li>
-							</ul>
-						</div>
-						<div class="part-2">
-							<h3 class="product-title">Here Product Title</h3>
-							<h4 class="product-price">$49.99</h4>
-						</div>
-					</div>
-				</div>
-				Single Product 
-				<div class="col-md-6 col-lg-4 col-xl-3">
-					<div id="product-3" class="single-product">
-						<div class="part-1">
-							<ul>
-								<li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
-								<li><a href="#"><i class="fas fa-heart"></i></a></li>
-								<li><a href="#"><i class="fas fa-plus"></i></a></li>
-								<li><a href="#"><i class="fas fa-expand"></i></a></li>
-							</ul>
-						</div>
-						<div class="part-2">
-							<h3 class="product-title">Here Product Title</h3>
-							<h4 class="product-old-price">$79.99</h4>
-							<h4 class="product-price">$49.99</h4>
-						</div>
-					</div>
-				</div>
-				Single Product 
-				<div class="col-md-6 col-lg-4 col-xl-3">
-					<div id="product-4" class="single-product">
-						<div class="part-1">
-							<span class="new">new</span>
-							<ul>
-								<li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
-								<li><a href="#"><i class="fas fa-heart"></i></a></li>
-								<li><a href="#"><i class="fas fa-plus"></i></a></li>
-								<li><a href="#"><i class="fas fa-expand"></i></a></li>
-							</ul>
-						</div>
-						<div class="part-2">
-							<h3 class="product-title">Here Product Title</h3>
-							<h4 class="product-price">$49.99</h4>
-						</div>
-					</div>
-				</div>
+	<div>
+		<div class="panel panel-default">
+			<div class="panel-heading" style="margin-top: 90px;">
+				<strong> All Resources</strong>
 			</div>
-			-->
-		</b-container>
-	</section>
+			<div class="row">
+				<div class="search-wrapper panel-heading col-sm-12">
+					<input class="form-control" type="text" v-model="searchQuery" placeholder="Search" />
+				</div>                        
+			</div>
+			<div class="table-responsive">
+				<table v-if="resources.length" class="table">
+					<thead>
+						<tr>
+							<th>Resource</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="item in resultQuery" :key="item">
+							<td><a v-bind:href="item.uri" target="_blank">{{item.title}}</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script>
 export default {
-	name: 'ProductView',
 	data () {
 		return {
-			item: {id: 1, product_title: 'Nike run', product_price: '49.99', product_image_url: 'https://i.ibb.co/L8Nrb7p/1.jpg'}
+			searchQuery: null,
+			resources: [
+				{title: 'Croccantini', category: 'cane'},
+				{title: 'osso da masticare', category: 'cane'},
+				{title: 'gomitolo', category: 'gatto'},
+				{title: 'boccia di vetro', category: 'pesce'}
+			]
+		}
+	},
+	computed: {
+		resultQuery () {
+			if (this.searchQuery) {
+				return this.resources.filter((item) => {
+					return this.searchQuery.toLowerCase().split(' ').every(v => item.title.toLowerCase().includes(v))
+				})
+			} else {
+				return this.resources
+			}
 		}
 	}
 }
 </script>
 
 <style>
-body {
-	font-family: "Poppins", sans-serif;
-	color: #444444;
+</style>
+
+<!--
+	- resources: https://stackoverflow.com/questions/52558770/vuejs-search-filter
+-->
+
+
+<!--
+<template>
+	<b-container style="margin-top: 80px;">
+		<b-row class="d-flex justify-content-center" v-for="product in products" :key="product">
+			<b-col>
+				<div class="row p-2 bg-white border rounded" style="margin-bottom: 5px;">
+					<div class="col-md-3 mt-1">
+						<img class="img-fluid img-responsive rounded product-image" src="https://i.imgur.com/QpjAiHq.jpg">
+					</div>
+					<div class="col-md-6 mt-1">
+						<h5>{{ product.title }}</h5>
+						<p>{{ product.description }}</p>
+					</div>
+					<div class="align-items-center align-content-center col-md-3 border-left mt-1">
+						<div class="d-flex flex-row align-items-center">
+							<h4>{{ product.price }}</h4>
+						</div>
+						<div class="d-flex flex-column mt-4">
+							<button class="btn btn-primary btn-sm" type="button">Details</button>
+							<button class="btn btn-outline-primary btn-sm mt-2" type="button">Add to wishlist</button>
+						</div>
+					</div>
+				</div>
+			</b-col>
+		</b-row>
+	</b-container>
+</template>
+
+<script>
+import axios from 'axios'
+
+export default {
+	name: 'ProductView',
+	data () {
+		return {
+			products: []
+		}
+	},
+	methods: {
+		requestProduct () {
+			axios
+			.get("https://site212225.tw.cs.unibo.it/products")
+            .then(response => (this.products = response.data))
+		}
+	},
+	created: function () {
+        this.requestProduct();
+    }
 }
+</script>
+
+<style>
+body {
+	background: #eee;
+}
+.product-image {
+	width: 100%;
+}
+.spec-1 {
+	color: #938787;
+	font-size: 15px;
+}
+h5 {
+	font-weight: 400;
+}
+.para {
+	font-size: 16px;
+}
+</style>
+
+
+<template>
+	<section class="section-products">
+		<div class="container">
+			<b-row>
+				<b-col>
+
+				</b-col>
+			</b-row>
+			<b-row class="row-cols-1 row-cols-md-4" v-for="product in products" :key="product">
+				<b-col>
+					<div id="product-2" class="single-product">
+						<div class="part-1">
+							<span class="discount">15% off</span>
+							<ul>
+								<li><a href="#"><b-icon-heart v-b-popover.hover.top="'Aggiungi alla lista desideri'"></b-icon-heart></a></li>
+								<li><a href="#"><b-icon-arrows-angle-expand v-b-popover.hover.top="'Visualizza carattistiche prodotto'"></b-icon-arrows-angle-expand></a></li>
+							</ul>
+						</div>
+						<div class="part-2">
+							<h3 class="product-title">{{ product.title }}</h3>
+							<h4>{{ product.description }}</h4>
+							<h5 class="product-price">{{ product.price }} &euro;</h5>
+						</div>
+					</div>
+				</b-col>
+			</b-row>
+		</div>
+	</section>
+</template>
+
+<script>
+import axios from 'axios'
+
+export default {
+	name: 'ProductView',
+	data () {
+		return {
+			products: []
+		}
+	},
+	methods: {
+		requestProduct () {
+			axios
+			.get("https://site212225.tw.cs.unibo.it/products")
+            .then(response => (this.products = response.data))
+		}
+	},
+	created: function () {
+        this.requestProduct();
+    }
+}
+</script>
+
+<style>
+.part-2 {
+	border: 1px solid black;
+}
+
 a, a:hover {
 	text-decoration: none;
     color: inherit;
@@ -299,27 +296,5 @@ a, a:hover {
 .section-products .single-product .part-1 ul li a:hover {
     color: #fe302f;
 }
-.section-products .single-product .part-2 .product-title {
-    font-size: 1rem;
-}
-.section-products .single-product .part-2 h4 {
-    display: inline-block;
-    font-size: 1rem;
-}
-.section-products .single-product .part-2 .product-old-price {
-    position: relative;
-    padding: 0 7px;
-    margin-right: 2px;
-    opacity: 0.6;
-}
-.section-products .single-product .part-2 .product-old-price::after {
-    position: absolute;
-    content: "";
-    top: 50%;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background-color: #444444;
-    transform: translateY(-50%);
-}
 </style>
+-->

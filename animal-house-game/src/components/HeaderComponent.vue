@@ -2,13 +2,13 @@
     <div id="page-top">
         <b-navbar toggleable="lg" type="dark" fixed="top" id="mainNav">
             <b-navbar-brand href="#page-top"><img class="resized" src="../assets/navbar-logo.png"></b-navbar-brand>
-            <b-navbar-toggle target="nav-toggle-collapse">
-                menu <b-icon-list></b-icon-list>
+            <b-navbar-toggle target="nav-toggle-collapse" style="border: none;">
+                <b-icon-list></b-icon-list>
             </b-navbar-toggle>
             <b-collapse id="nav-toggle-collapse" is-nav>
                 <b-navbar-nav>
-                    <b-nav-item>SERVICES</b-nav-item>
-                    <b-nav-item>PORTFOLIO</b-nav-item>
+                    <b-nav-item :to="{name: 'mobile'}">SERVICES</b-nav-item>
+                    <b-nav-item :to="{name: 'product'}">PORTFOLIO</b-nav-item>
                     <b-nav-item>ABOUT</b-nav-item>
                     <b-nav-item>TEAM</b-nav-item>
                     <b-nav-item :to="{name: 'contatti'}">CONTACT</b-nav-item>

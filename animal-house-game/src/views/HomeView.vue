@@ -1,152 +1,28 @@
 <template>
   <b-container id="app">
     <HeaderComponent></HeaderComponent>
-    <b-aspect :aspect="aspect" style="border: 1px solid black;">
-      <img src="../assets/logo.png" style="width: 2rem;
-    height: 2rem;">
-      <b-aspect id="ciao" :aspect="aspect" style="border: 1px solid black;">
+    <b-container style="padding-top: 75px;">
+      <b-aspect id="ciao" :aspect="aspect">
         <img src="../assets/zampamano.webp" style="width: 100%; height: 100%; opacity: 0.6;">
-        <p class="centered">
+        <div class="centered">
           ANIMAL HOUSE
-        </p>
-        <p class="sopra">
-          l'attenzione che nasce da dentro<br>primo centro completo per l'esigenze dei tuoi animali
-        </p>
+        </div>
         <p class="mezzo">
           qui per te e per loro
         </p>
-        <p class="bottom">
-          scopri di piu' sulla nostra azienda alla pagina about
-        </p>
+        <b-button class="bottom" size="lg" variant="dark" href="#testo" style="color: #fed136; box-shadow: 0px 0px 2px 2px rgb(0,0,0);">
+          TELL ME MORE
+        </b-button>
       </b-aspect>
-      <p>
-        sotto mostrate le anteprime di tutti i servizi offerti per regalare un'esperienza completa ai vostri amici, seguito da tanto altro
+      <p id="testo">
+          l'attenzione che nasce da dentro<br>primo centro completo per l'esigenze dei tuoi animali
       </p>
-    </b-aspect>
-    <hr />
-
+    </b-container>
     <!--Servizi-->
     <ServicesComponent></ServicesComponent>
     
-    <b-aspect id="griglia" :aspect="dim" style="border: 1px solid black;">
-      <p>qui griglia di immagini per servizi</p>
-      <b-aspect :aspect="dim" style="border: 1px solid black;">
-        <b-row>
-          <b-col>
-            <figure class="nomeClasse" data-effect="fade-in">
-              <img src="../assets/contatti.jpg" style="width: 100%; height: 100%;">
-              <figcaption>
-                <h2>cover fade</h2>
-              </figcaption>
-            </figure>
-          </b-col>
-          <b-col>
-            <figure class="nomeClasse" data-effect="fade-in">
-              <img src="../assets/curiosita.jpg" style="width: 100%; height: 100%;">
-              <figcaption>
-                <h2>cover fade</h2>
-              </figcaption>
-            </figure>
-          </b-col>
-          <b-col>
-            <figure class="nomeClasse" data-effect="fade-in">
-              <img src="../assets/toilettatura.jpg" style="width: 100%; height: 100%;">
-              <figcaption>
-                <h2>cover fade</h2>
-              </figcaption>
-            </figure>
-          </b-col>
-        </b-row>
-      </b-aspect>
-      <hr>
-      <b-aspect :aspect="dim" style="border: 1px solid black;">
-        <b-row>
-          <b-col>
-            <figure class="nomeClasse" data-effect="fade-in">
-              <img src="../assets/sedi.jpg" style="width: 100%; height: 100%;">
-              <figcaption>
-                <h2>cover fade</h2>
-              </figcaption>
-            </figure> 
-          </b-col>
-          <b-col>
-            <figure class="nomeClasse" data-effect="fade-in">
-              <img src="../assets/commenti.jpg" style="width: 100%; height: 100%;">
-              <figcaption>
-                <h2>cover fade</h2>
-              </figcaption>
-            </figure>
-          </b-col>
-          <b-col>
-            <figure class="nomeClasse" data-effect="fade-in">
-              <img src="../assets/shop.jpg" style="width: 100%; height: 100%;">
-              <figcaption>
-                <h2>cover fade</h2>
-              </figcaption>
-            </figure>
-          </b-col>
-        </b-row>
-      </b-aspect>
-      <hr>
-      <b-aspect :aspect="dim" style="border: 1px solid black;">
-        <b-row>
-          <b-col>
-            <figure class="nomeClasse" data-effect="fade-in">
-              <img src="../assets/game.jpg" style="width: 100%; height: 100%;">
-              <figcaption>
-                <h2>cover fade</h2>
-              </figcaption>
-            </figure>
-          </b-col>
-          <b-col>
-            <figure class="nomeClasse" data-effect="fade-in">
-              <img src="../assets/about.jpg" style="width: 100%; height: 100%;">
-              <figcaption>
-                <h2>cover fade</h2>
-              </figcaption>
-            </figure>
-          </b-col>
-          <b-col>
-            <figure class="nomeClasse" data-effect="fade-in">
-              <img src="../assets/cibo.jpg" style="width: 100%; height: 100%;">
-              <figcaption>
-                <h2>cover fade</h2>
-              </figcaption>
-            </figure>
-          </b-col>
-        </b-row>
-      </b-aspect>
-      <hr>
-      <b-aspect :aspect="dim" style="border: 1px solid black;">
-        <b-row>
-          <b-col>
-            <figure class="nomeClasse" data-effect="fade-in">
-              <img src="../assets/eventi.jpg" style="width: 100%; height: 100%;">
-              <figcaption>
-                <h2>cover fade</h2>
-              </figcaption>
-            </figure>
-          </b-col>
-          <b-col>
-            <figure class="nomeClasse" data-effect="fade-in">
-              <img src="../assets/recensioni.jpg" style="width: 100%; height: 100%;">
-              <figcaption>
-                <h2>cover fade</h2>
-              </figcaption>
-            </figure>
-          </b-col>
-          <b-col>
-            <figure class="nomeClasse" data-effect="fade-in">
-              <img src="../assets/collabora.jpg" style="width: 100%; height: 100%;">
-              <figcaption>
-                <h2>cover fade</h2>
-              </figcaption>
-            </figure>
-          </b-col>
-        </b-row>
-      </b-aspect>
-      <p>fine delle immagini</p>
-    </b-aspect>
+    <!--Porfolio-->
+    <PortfolioComponent></PortfolioComponent>
 
     <hr>
     <router-view></router-view>
@@ -161,13 +37,15 @@
 import AboutComponent from "../components/AboutComponent.vue"
 import TeamComponent from "../components/TeamComponent.vue"
 import ServicesComponent from "../components/ServicesComponent.vue"
+import PortfolioComponent from "../components/PortfolioComponent.vue"
 
 export default {
   name: 'HomeView',
   components: {
     AboutComponent,
     TeamComponent,
-    ServicesComponent
+    ServicesComponent,
+    PortfolioComponent
   },
   data () {
     return {
@@ -200,16 +78,11 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-}
-.sopra {
-  font-size: 80%;
-  position: absolute;
-  top: 10%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  color: #fed136;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 .mezzo {
-  font-size: 70%;
+  font-size: 100%;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -217,8 +90,8 @@ export default {
 }
 .bottom {
   position: absolute;
-  font-size: 75%;
-  bottom: 0%;
+  font-size: 70%;
+  bottom: 10%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
